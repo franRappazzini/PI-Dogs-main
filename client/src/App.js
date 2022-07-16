@@ -1,10 +1,25 @@
-import './App.css';
+import "./App.css";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import CreateDog from "./components/organisms/CreateDog/CreateDog";
+import DogDetails from "./components/organisms/DogDetails/DogDetails";
+import Home from "./components/organisms/Home/Home";
+import Main from "./components/organisms/Main/Main";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Henry Dogs</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main />} />
+
+        <Route path="/home" element={<Home />} />
+
+        <Route path="/dog/:id" element={<DogDetails />} />
+
+        <Route path="/createDog" element={<CreateDog />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

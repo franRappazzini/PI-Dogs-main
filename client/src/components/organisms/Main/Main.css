@@ -1,0 +1,7 @@
+.main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("../../../assets/img/backgound_happy_dogs.jpg");
+}
