@@ -7,7 +7,7 @@ function DogCard({ image, name, temperament, weight }) {
   return (
     <Link to={`/dog/${name}`} className="article_dogCard">
       {/* <article className="article_dogCard"> */}
-      <img src={image.url} alt="name" width={300} />
+      {image && <img src={image.url} alt="name" width={300} />}
       <h3>{name}</h3>
       <p>{temperament}</p>
       <p>{weight.metric}</p>

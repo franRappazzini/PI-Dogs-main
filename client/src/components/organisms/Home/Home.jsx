@@ -4,11 +4,18 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import DogCard from "../../molecules/DogCard/DogCard";
+import FormFilters from "../../molecules/FormFilters/FormFilters";
 import { getDogs } from "../../../redux/actions/dogActions";
 import { useEffect } from "react";
 
 function Home() {
-  const [breed, setBreed] = useState("");
+  const [filter, setFilter] = useState({
+    search: "",
+    breed: "",
+    temperament: "",
+    orderByName: "",
+    orderByWeight: "",
+  });
   const [dogsSearched, setDogsSearched] = useState([]);
   const dogs = useSelector((state) => state.dogs.dogs);
   const dispatch = useDispatch();
@@ -16,41 +23,29 @@ function Home() {
   useEffect(() => {
     dispatch(getDogs());
 
-    // filtro de busqueda
-    dogs && breed !== ""
+    // console.log(dogsSearched);
+
+    dogs.length > 0 && filter.search !== ""
       ? setDogsSearched(
-          dogs.filter((dog, i) =>
-            dog.name.toLowerCase().includes(breed.toLowerCase())
+          dogs.filter((dog) =>
+            dog.name.toLowerCase().includes(filter.search.toLowerCase())
           )
         )
       : setDogsSearched(dogs);
-    // console.log(dogs);
-  }, [dispatch, breed, dogs]);
+  }, [dispatch, dogs, filter]);
+
+  // console.log(filter);
 
   function handleChange(e) {
-    setBreed(e.target.value);
+    setFilter({
+      ...filter,
+      [e.target.name]: e.target.value,
+    });
   }
 
   return (
     <section>
-      <form action="">
-        <input
-          type="text"
-          placeholder="Buscar raza.."
-          value={breed}
-          onChange={handleChange}
-        />
-        <select name="filterBy">
-          <option value="default">-</option>
-          <option value="temp">temp</option>
-          <option value="raza">raza</option>
-        </select>
-        <select name="orderBy">
-          <option value="default">-</option>
-          <option value="asc">asc</option>
-          <option value="desc">desc</option>
-        </select>
-      </form>
+      <FormFilters filter={filter} handleChange={handleChange} />
 
       {/* TODO aca hacerle un container */}
       <section className="probando">

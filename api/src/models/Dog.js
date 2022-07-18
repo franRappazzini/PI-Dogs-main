@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { randomUUID } = require("crypto");
+
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
@@ -7,10 +7,11 @@ module.exports = (sequelize) => {
   sequelize.define(
     "Dog",
     {
-      idDog: {
+      id: {
         type: DataTypes.UUID,
-        defaultValue: randomUUID(),
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
+        unique: true,
       },
       name: {
         type: DataTypes.STRING,
@@ -25,9 +26,22 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       life_span: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
+        allowNull: true,
       },
-    },
-    { timestamps: true }
+      createdAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
+      },
+    }
+    // {
+    //   timestamps: false,
+    // }
   );
 };
