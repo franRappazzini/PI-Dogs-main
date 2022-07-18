@@ -4,7 +4,14 @@ const { Temperament } = require("../db");
 
 router.get("", async (req, res) => {
   try {
-  } catch (err) {}
+    // return temperaments;
+
+    // const response = await getTemperaments();
+    // const response= Temperament.findOrCreate()
+    res.json(temperaments);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
 });
 
 module.exports = router;

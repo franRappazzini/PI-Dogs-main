@@ -6,6 +6,15 @@ import { useState } from "react";
 
 function CreateDog() {
   // TODO validar form con regex (OBLIGATORIO)
+  const [cant, setCant] = useState(1);
+  const [temperamentInput, setTemperamentInput] = useState([
+    <input
+      key={cant}
+      type="text"
+      name={`Temperamento ${cant}`}
+      placeholder={`Temperamento ${cant}`}
+    />,
+  ]);
   const [form, setForm] = useState({
     name: "",
     height: "",
@@ -25,77 +34,83 @@ function CreateDog() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+  function handleClick() {
+    if (cant < 5) {
+      setTemperamentInput([
+        ...temperamentInput,
+        <input
+          key={cant + 1}
+          type="text"
+          name={`temperament${cant + 1}`}
+          placeholder={`Temperamento ${cant + 1}`}
+        />,
+      ]);
+
+      setCant(cant + 1);
+    } else alert("no se pueden agrgegar mas temperamentos");
+  }
+
   return (
     <section>
       <form action="" className="form_createDog" onSubmit={handleSubmit}>
-        <label htmlFor="name">Nombre:</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Nombre"
-          required
-          value={form.name}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="height">Altura:</label>
-        <input
-          type="text"
-          name="height"
-          placeholder="Altura"
-          required
-          value={form.height}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="weight">Peso:</label>
-        <input
-          type="text"
-          name="weight"
-          placeholder="Peso"
-          required
-          value={form.weight}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="life_span">Años de vida:</label>
-        <input
-          type="number"
-          name="life_span"
-          placeholder="Años de vida"
-          min={1}
-          value={form.life_span}
-          onChange={handleChange}
-        />
-
-        {/* TODO pensar logica con back y db para los checkbox */}
-        <label htmlFor="temp1">
+        <div>
+          <label htmlFor="name">Nombre:</label>
           <input
-            type="checkbox"
-            name="temp1"
-            id="temp1"
+            type="text"
+            name="name"
+            placeholder="Nombre"
+            required
+            value={form.name}
             onChange={handleChange}
-          />{" "}
-          temperament 1
-        </label>
-        <label htmlFor="temp2">
+          />
+        </div>
+
+        <div>
+          <label htmlFor="height">Altura:</label>
           <input
-            type="checkbox"
-            name="temp2"
-            id="temp2"
+            type="text"
+            name="height"
+            placeholder="Altura"
+            required
+            value={form.height}
             onChange={handleChange}
-          />{" "}
-          temperament 2
-        </label>
-        <label htmlFor="temp3">
+          />
+        </div>
+
+        <div>
+          <label htmlFor="weight">Peso:</label>
           <input
-            type="checkbox"
-            name="temp3"
-            id="temp3"
+            type="text"
+            name="weight"
+            placeholder="Peso"
+            required
+            value={form.weight}
             onChange={handleChange}
-          />{" "}
-          temperament 3
-        </label>
+          />
+        </div>
+
+        <div>
+          <label htmlFor="life_span">Años de vida:</label>
+          <input
+            type="number"
+            name="life_span"
+            placeholder="Años de vida"
+            min={1}
+            value={form.life_span}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* TODO pensar logica con back y db para los checkbox 
+        sino un input separados por comas + split
+        sino renderizando con btn*/}
+        <section>
+          <label htmlFor="temperament">Temperamentos:</label>
+          {temperamentInput}
+          <button type="button" onClick={handleClick}>
+            Agregar mas temperamentos
+          </button>
+        </section>
 
         <button type="submit">CREAR</button>
       </form>
