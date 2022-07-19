@@ -9,16 +9,18 @@ import { useSelector } from "react-redux";
 function DogCardContainer({ filter }) {
   const [dogsFilter, setDogsFilter] = useState([]);
   const dogs = useSelector((state) => state.dogs.dogs);
-  useEffect(() => {
-    const arr = Object.values(filter).filter((val) => val !== "");
 
+  useEffect(() => {
+    const arrFilters = Object.entries(filter);
+    console.log(arrFilters);
     // TODO esta mal asi
-    // TODO pensar si cambiar las key del filter
-    arr.length > 0
+    filter.length > 0
       ? setDogsFilter(
-          dogs.filter((dog) =>
-            arr.forEach((fil) =>
-              dog.name.toLowerCase().includes(fil.toLowerCase())
+          arrFilters.forEach((fil) =>
+            dogs.filter(
+              (dog) =>
+                fil[1] !== "" &&
+                dog[fil[0]].toLowerCase().includes(fil[1].toLowerCase())
             )
           )
         )

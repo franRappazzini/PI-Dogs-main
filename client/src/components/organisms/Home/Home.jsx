@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 function Home() {
   const [filter, setFilter] = useState({
-    search: "",
+    name: "",
     breed: "",
     temperament: "",
     orderByName: "",

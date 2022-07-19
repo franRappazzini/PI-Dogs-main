@@ -1,53 +1,54 @@
 import "./CreateDog.css";
 
+import { createDog, getTemperaments } from "../../../redux/actions/dogActions";
+import { useDispatch, useSelector } from "react-redux";
+
 import React from "react";
-import { createDog } from "../../../redux/actions/dogActions";
+import { useEffect } from "react";
 import { useState } from "react";
 
 function CreateDog() {
   // TODO validar form con regex (OBLIGATORIO)
-  const [cant, setCant] = useState(1);
-  const [temperamentInput, setTemperamentInput] = useState([
-    <input
-      key={cant}
-      type="text"
-      name={`Temperamento ${cant}`}
-      placeholder={`Temperamento ${cant}`}
-    />,
-  ]);
   const [form, setForm] = useState({
     name: "",
     height: "",
     weight: "",
     life_span: "",
   });
+  const [tempsSelected, setTempsSelected] = useState([]);
+  const temperaments = useSelector((state) => state.dogs.temperaments);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTemperaments());
+  }, [dispatch]);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    await createDog(form);
+    await createDog(form, tempsSelected);
 
     setForm({ name: "", height: "", weight: "", life_span: "" });
+    setTempsSelected([]);
   }
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleClick() {
-    if (cant < 5) {
-      setTemperamentInput([
-        ...temperamentInput,
-        <input
-          key={cant + 1}
-          type="text"
-          name={`temperament${cant + 1}`}
-          placeholder={`Temperamento ${cant + 1}`}
-        />,
-      ]);
+  function handleAddTemp(e) {
+    // TODO limitar cantidad a 5-8
+    for (const key of tempsSelected) {
+      if (key.temperaments === e.target.value) return;
+    }
 
-      setCant(cant + 1);
-    } else alert("no se pueden agrgegar mas temperamentos");
+    setTempsSelected([...tempsSelected, { [e.target.name]: e.target.value }]);
+  }
+
+  function handleRemoveTemp(e) {
+    setTempsSelected(
+      tempsSelected.filter((temp) => temp.temperaments !== e.target.id)
+    );
   }
 
   return (
@@ -105,11 +106,30 @@ function CreateDog() {
         sino un input separados por comas + split
         sino renderizando con btn*/}
         <section>
-          <label htmlFor="temperament">Temperamentos:</label>
-          {temperamentInput}
-          <button type="button" onClick={handleClick}>
-            Agregar mas temperamentos
-          </button>
+          <label htmlFor="temperaments">Temperamentos:</label>
+          <select name="temperaments" onChange={handleAddTemp}>
+            <option value="">Seleccionar..</option>
+            {temperaments.length > 0 &&
+              temperaments.map((temp) => (
+                <option key={temp.id} value={temp.name}>
+                  {temp.name}
+                </option>
+              ))}
+          </select>
+
+          <div className="temperaments_container">
+            {/* TODO poner icono de remove */}
+            {/* TODO pensar como hacer este disenio */}
+            {tempsSelected.length > 0 &&
+              tempsSelected.map((temp) => (
+                <p key={temp.temperaments} className="temperament_selected">
+                  {temp.temperaments}{" "}
+                  <span id={`${temp.temperaments}`} onClick={handleRemoveTemp}>
+                    x
+                  </span>
+                </p>
+              ))}
+          </div>
         </section>
 
         <button type="submit">CREAR</button>

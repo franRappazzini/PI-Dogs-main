@@ -10,8 +10,8 @@ function FormFilters({ filter, handleChange }) {
       <input
         type="text"
         placeholder="Buscar raza.."
-        name="search"
-        value={filter.search}
+        name="name"
+        value={filter.name}
         onChange={handleChange}
       />
 

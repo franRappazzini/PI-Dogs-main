@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const { Dog } = require("../db");
+const { Dog, Temperament, Op } = require("../db");
 
 router.get("", async (req, res) => {
   const { name } = req.query;
@@ -28,11 +28,24 @@ router.get("/:idRaza", async (req, res) => {
 });
 
 router.post("", async (req, res) => {
-  // TODO destructuring de datos que mando por el form
-  const { name, height, weight, life_span } = req.body;
+  const { name, height, weight, life_span, temperaments } = req.body;
 
+  console.log(temperaments);
   try {
-    await Dog.create({ name, height, weight, life_span });
+    const dog = await Dog.create({ name, height, weight, life_span });
+    // si selecciona temperamentos, los agrego a la tabla intermedia
+    if (temperaments.length) {
+      const tempsId = await Temperament.findAll({
+        attributes: ["id"],
+        where: {
+          name: {
+            [Op.or]: temperaments,
+          },
+        },
+      });
+
+      await dog.addTemperaments(tempsId);
+    }
     res.status(201).json({ success: "Creado con exito!" });
   } catch (err) {
     res.status(400).json({ error: err.message });

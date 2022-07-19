@@ -3,3 +3,17 @@
   flex-direction: column;
   width: fit-content;
 }
+
+.temperaments_container {
+  border: 1px solid black;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* width: min-content; */
+}
+
+.temperament_selected {
+  border: 1px solid black;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  width: fit-content;
+}

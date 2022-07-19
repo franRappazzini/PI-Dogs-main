@@ -36,12 +36,18 @@ export function getDogDetails(breed) {
   };
 }
 
-export async function createDog(dog) {
+export async function createDog(dog, temps) {
   const { name, height, weight, life_span } = dog;
+
+  // TODO es mejor hacer logica aca o en server? 🤔
+  const temperaments = [];
+  if (temps.length) {
+    temps.forEach((temp) => temperaments.push(temp.temperaments));
+  }
 
   try {
     const newDog = { name, height, weight, life_span };
-    await axios.post("http://localhost:3001/dogs", newDog);
+    await axios.post("http://localhost:3001/dogs", { ...newDog, temperaments });
     return { success: "Creado con exito" };
   } catch (err) {
     return { error: err.message };
