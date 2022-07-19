@@ -2,10 +2,10 @@ import "./Home.css";
 
 import React, { useState } from "react";
 import { getDogs, getTemperaments } from "../../../redux/actions/dogActions";
-import { useDispatch, useSelector } from "react-redux";
 
 import DogCardContainer from "../../molecules/DogCard/DogCardContainer";
 import FormFilters from "../../molecules/FormFilters/FormFilters";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 function Home() {
@@ -16,7 +16,6 @@ function Home() {
     orderByName: "",
     orderByWeight: "",
   });
-  const temperaments = useSelector((state) => state.dogs.temperaments);
   const dispatch = useDispatch();
 
   useEffect(() => {

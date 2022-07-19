@@ -1,6 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 function FormFilters({ filter, handleChange }) {
+  const temperament = useSelector((state) => state.dogs.temperaments);
+
   return (
     <form action="">
       {/* TODO usar iconos para organizar order y filter */}
@@ -11,11 +14,16 @@ function FormFilters({ filter, handleChange }) {
         value={filter.search}
         onChange={handleChange}
       />
+
       <span>Temperamento:</span>
       <select name="temperament" onChange={handleChange}>
-        <option value="">-</option>
-        <option value="active">active</option>
-        <option value="default">-</option>
+        <option value="">Todos</option>
+        {temperament.length > 0 &&
+          temperament.map((temp) => (
+            <option key={temp.id} value={temp.name} onChange={handleChange}>
+              {temp.name}
+            </option>
+          ))}
       </select>
 
       <span>Filtrar:</span>

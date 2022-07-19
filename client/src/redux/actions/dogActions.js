@@ -5,14 +5,15 @@ export const GET_DOG_DETAILS = "GET_DOG_DETAILS";
 export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS";
 
 const URL = "https://api.thedogapi.com/v1/breeds";
-const URLDB = "http://localhost:3001/dogs";
+const URL_DOGS = "http://localhost:3001/dogs";
+const URL_TEMP = "http://localhost:3001/temperaments";
 
 export function getDogs() {
   return async (dispatch) => {
     try {
       const res = await fetch(URL);
       const data = await res.json();
-      // const resDb = await fetch(URLDB);
+      // const resDb = await fetch(URL_DOGS);
       // const dataDb = await resDb.json();
 
       // const allDogs = [...data, ...dataDb];
@@ -50,23 +51,12 @@ export async function createDog(dog) {
 export function getTemperaments() {
   return async (dispatch) => {
     try {
-      const res = await fetch(URL);
+      const res = await fetch(URL_TEMP);
       const data = await res.json();
 
-      const temperaments = data
-        .map((dog) => dog.temperament)
-        .join()
-        .split(",");
-      // .filter((temp, i) => data.indexOf(temp) === i);
-
-      dispatch({
-        type: GET_TEMPERAMENTS,
-        payload: temperaments.filter(
-          (temp, i) => temperaments.indexOf(temp) === i
-        ),
-      });
+      dispatch({ type: GET_TEMPERAMENTS, payload: data });
     } catch (err) {
-      throw new Error(err.message);
+      console.log(err.message);
     }
   };
 }
