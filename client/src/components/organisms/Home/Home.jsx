@@ -1,7 +1,11 @@
 import "./Home.css";
 
 import React, { useState } from "react";
-import { getDogs, getTemperaments } from "../../../redux/actions/dogActions";
+import {
+  getDogs,
+  getDogsDB,
+  getTemperaments,
+} from "../../../redux/actions/dogActions";
 
 import DogCardContainer from "../../molecules/DogCard/DogCardContainer";
 import FormFilters from "../../molecules/FormFilters/FormFilters";
@@ -11,7 +15,7 @@ import { useEffect } from "react";
 function Home() {
   const [filter, setFilter] = useState({
     name: "",
-    breed: "",
+    breed: "api",
     temperament: "",
     orderByName: "",
     orderByWeight: "",
@@ -19,9 +23,10 @@ function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getDogs());
+    filter.breed === "api" ? dispatch(getDogs()) : dispatch(getDogsDB());
+
     dispatch(getTemperaments());
-  }, [dispatch]);
+  }, [filter.breed, dispatch]);
 
   function handleChange(e) {
     setFilter({

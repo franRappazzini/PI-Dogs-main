@@ -18,6 +18,8 @@ function App() {
         <Route path="/dog/:breed" element={<DogDetails />} />
 
         <Route path="/createDog" element={<CreateDog />} />
+
+        {/*TODO page 404 divertida */}
       </Routes>
     </BrowserRouter>
   );

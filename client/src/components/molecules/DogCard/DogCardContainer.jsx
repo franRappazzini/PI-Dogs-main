@@ -11,17 +11,11 @@ function DogCardContainer({ filter }) {
   const dogs = useSelector((state) => state.dogs.dogs);
 
   useEffect(() => {
-    const arrFilters = Object.entries(filter);
-    console.log(arrFilters);
-    // TODO esta mal asi
-    filter.length > 0
+    // TODO pensar como filtrar
+    dogs && filter.name !== ""
       ? setDogsFilter(
-          arrFilters.forEach((fil) =>
-            dogs.filter(
-              (dog) =>
-                fil[1] !== "" &&
-                dog[fil[0]].toLowerCase().includes(fil[1].toLowerCase())
-            )
+          dogs.filter((dog) =>
+            dog.name.toLowerCase().includes(filter.name.toLowerCase())
           )
         )
       : setDogsFilter(dogs);

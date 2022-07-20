@@ -1,8 +1,11 @@
+import { getDogs, getDogsDB } from "../../../redux/actions/dogActions";
+import { useDispatch, useSelector } from "react-redux";
+
 import React from "react";
-import { useSelector } from "react-redux";
 
 function FormFilters({ filter, handleChange }) {
   const temperament = useSelector((state) => state.dogs.temperaments);
+  const dispatch = useDispatch();
 
   return (
     <form action="">
@@ -28,9 +31,9 @@ function FormFilters({ filter, handleChange }) {
 
       <span>Filtrar:</span>
       <select name="breed" onChange={handleChange}>
-        <option value="all">todas</option>
-        <option value="api">api</option>
-        <option value="created">creadas</option>
+        {/* <option value="all">todas</option> */}
+        <option value="api">API</option>
+        <option value="created">Creadas</option>
       </select>
 
       <span>Nombre:</span>

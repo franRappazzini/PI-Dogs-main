@@ -4,14 +4,14 @@ export const GET_DOGS = "GET_DOGS";
 export const GET_DOG_DETAILS = "GET_DOG_DETAILS";
 export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS";
 
-const URL = "https://api.thedogapi.com/v1/breeds";
+const URL_API = "https://api.thedogapi.com/v1/breeds";
 const URL_DOGS = "http://localhost:3001/dogs";
 const URL_TEMP = "http://localhost:3001/temperaments";
 
 export function getDogs() {
   return async (dispatch) => {
     try {
-      const res = await fetch(URL);
+      const res = await fetch(URL_API);
       const data = await res.json();
       // const resDb = await fetch(URL_DOGS);
       // const dataDb = await resDb.json();
@@ -24,17 +24,30 @@ export function getDogs() {
   };
 }
 
-export function getDogDetails(breed) {
+export function getDogsDB() {
   return async (dispatch) => {
     try {
-      const res = await fetch(`${URL}/search?q=${breed}`);
+      const res = await fetch(URL_DOGS);
       const data = await res.json();
-      dispatch({ type: GET_DOG_DETAILS, payload: data });
+
+      dispatch({ type: GET_DOGS, payload: data });
     } catch (err) {
       console.log(err.message);
     }
   };
 }
+
+// export function getDogDetails(breed) {
+//   return async (dispatch) => {
+//     try {
+//       const res = await fetch(`${URL_API}/search?q=${breed}`);
+//       const data = await res.json();
+//       dispatch({ type: GET_DOG_DETAILS, payload: data });
+//     } catch (err) {
+//       console.log(err.message);
+//     }
+//   };
+// }
 
 export async function createDog(dog, temps) {
   const { name, height, weight, life_span } = dog;

@@ -6,7 +6,11 @@ router.get("", async (req, res) => {
   const { name } = req.query;
 
   try {
-    const options = { where: {} };
+    const options = {
+      include: { model: Temperament },
+      where: {},
+      order: ["name"],
+    };
     if (name) options.where = name;
 
     const response = await Dog.findAll(options);
@@ -30,7 +34,6 @@ router.get("/:idRaza", async (req, res) => {
 router.post("", async (req, res) => {
   const { name, height, weight, life_span, temperaments } = req.body;
 
-  console.log(temperaments);
   try {
     const dog = await Dog.create({ name, height, weight, life_span });
     // si selecciona temperamentos, los agrego a la tabla intermedia
