@@ -1,46 +1,30 @@
-import React, { useState } from "react";
+import "./Pagination.css";
 
-import { useEffect } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
+import React from "react";
 
 function Pagination({ page, setPage, totalPage }) {
-  const [input, setInput] = useState(1);
-  useEffect(() => {
-    // page >= 1 && page <= totalPage && setPage(input);
-    page < 0 && setPage(1);
-    page > totalPage && setPage(totalPage);
-    console.log("page");
-  }, [page, setPage, totalPage, input]);
-
-  function handleChange(e) {
-    e.target.value && e.target.value >= 1 && setPage(e.target.value);
-    setInput(e.target.value);
-  }
+  // TODO ver logica para input
 
   function nextPage() {
     setPage(page + 1);
-    setInput(input + 1);
   }
 
   function previousPage() {
-    setPage(page + 1);
-    setInput(input + 1);
+    setPage(page - 1);
   }
 
   return (
-    <section>
+    <section className="pagination_container">
       <button onClick={previousPage} disabled={page <= 1 ? true : false}>
-        back
+        <FaChevronLeft />
       </button>
-      <input
-        type="number"
-        min={1}
-        max={22}
-        value={input}
-        onChange={handleChange}
-      />
-      <span>de {totalPage}</span>
+      <p>
+        <span className="text_page">{page}</span> de {totalPage}
+      </p>
       <button onClick={nextPage} disabled={page >= totalPage ? true : false}>
-        next
+        <FaChevronRight />
       </button>
     </section>
   );

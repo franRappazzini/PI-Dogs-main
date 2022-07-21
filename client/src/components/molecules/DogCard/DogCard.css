@@ -1,4 +1,42 @@
+.tilt_card {
+  display: flex;
+}
+
 .article_dogCard {
+  background-color: white;
+  padding: 1rem;
   width: min-content;
-  border: 1px solid black;
+  text-decoration: none;
+  color: rgb(29, 29, 29);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 3px;
+}
+
+.article_dogCard img {
+  width: 230px;
+  height: 210px;
+  object-fit: cover;
+}
+
+.article_dogCard:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: scale(1.02);
+  animation-duration: 1s;
+}
+
+@media only screen and (max-width: 820px) {
+  .article_dogCard img {
+    width: 250px;
+    height: 220px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .article_dogCard img {
+    width: 300px;
+    height: 250px;
+  }
 }

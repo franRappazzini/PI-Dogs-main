@@ -94,18 +94,24 @@ function DogCardContainer({ filter, order }) {
   }, [filter.name]);
 
   return (
-    <section className="container_dogCard">
-      {dogsFilter.length > 0 &&
-        dogsFilter
-          .slice(
-            (page - 1) * dogsPerPage,
-            (page - 1) * dogsPerPage + dogsPerPage
-          )
-          .map((dog) => <DogCard key={dog.id} {...dog} />)}
+    <section className="section_dogCard">
+      <div className="container_cards">
+        {dogsFilter.length > 0 &&
+          dogsFilter
+            .slice(
+              (page - 1) * dogsPerPage,
+              (page - 1) * dogsPerPage + dogsPerPage
+            )
+            .map((dog) => <DogCard key={dog.id} {...dog} />)}
+      </div>
 
-      {dogsFilter.length === 0 && <p>Loading...</p>}
-
-      <Pagination page={page} setPage={setPage} totalPage={totalPage} />
+      <div>
+        {dogsFilter.length === 0 ? (
+          <p>Loading...</p>
+        ) : (
+          <Pagination page={page} setPage={setPage} totalPage={totalPage} />
+        )}
+      </div>
     </section>
   );
 }

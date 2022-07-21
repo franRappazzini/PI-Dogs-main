@@ -24,8 +24,6 @@ function DogDetails() {
             dogsDb.find((dog) => dog.name === breed)
         )
       : setDog({});
-
-    console.log(dog);
   }, [dogsApi, dogsDb, breed]);
 
   // para obtener los temperamentos de los perros creados
@@ -35,7 +33,7 @@ function DogDetails() {
       : "";
 
   return (
-    <section>
+    <section className="max-width">
       <button onClick={() => navigate(-1)}>Home</button>
 
       {Object.keys(dog).length > 0 ? (
@@ -46,6 +44,7 @@ function DogDetails() {
             alt={`img-${dog.name}`}
           />
           <h3>{dog.name}</h3>
+          {/* TODO agregar origen */}
           {/* <p>{dog.temperament}</p> */}
           <p>{dog.temperament || temperaments}</p>
           <p>{dog.weight.metric || dog.weight}</p>

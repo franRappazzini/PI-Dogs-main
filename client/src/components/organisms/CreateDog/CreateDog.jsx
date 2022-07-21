@@ -52,7 +52,7 @@ function CreateDog() {
   }
 
   return (
-    <section>
+    <section className="max-width">
       <form action="" className="form_createDog" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Nombre:</label>

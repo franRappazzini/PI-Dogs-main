@@ -35,8 +35,6 @@ function Home() {
     console.log("first");
   }, [dispatch, filter.breed, filter.temperament]);
 
-  useEffect(() => {}, [filter.temperament, dispatch, filter.breed]);
-
   function handleChange(e) {
     setFilter({
       ...filter,
@@ -49,7 +47,7 @@ function Home() {
   }
 
   return (
-    <section>
+    <main className="max-width">
       <FormFilters
         filter={filter}
         handleChange={handleChange}
@@ -58,7 +56,7 @@ function Home() {
       />
 
       <DogCardContainer filter={filter} order={order} />
-    </section>
+    </main>
   );
 }
 
