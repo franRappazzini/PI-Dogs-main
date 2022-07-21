@@ -3,22 +3,28 @@ import "./DogCardContainer.css";
 import React, { useEffect, useState } from "react";
 
 import DogCard from "./DogCard";
+import Pagination from "../Pagination/Pagination";
 import { useSelector } from "react-redux";
+
+const dogsPerPage = 8;
 
 function DogCardContainer({ filter, order }) {
   const [dogsFilter, setDogsFilter] = useState([]);
   const { dogsApi, dogsDb, copyDogsApi, copyDogsDb } = useSelector(
     (state) => state.dogs
   );
+  const [page, setPage] = useState(1);
+  const totalPage = Math.ceil(dogsFilter.length / dogsPerPage);
 
   useEffect(() => {
-    // TODO pensar como filtrar
     if (dogsApi.length > 0 && filter.breed === "api") {
       setDogsFilter(dogsApi);
     } else if (dogsDb.length > 0 && filter.breed === "created") {
       // TODO pensar aca como hacer en caso de que no existan creados
       setDogsFilter(dogsDb);
     } else setDogsFilter([]);
+
+    setPage(1);
   }, [dogsApi, dogsDb, filter.breed]);
 
   useEffect(() => {
@@ -31,6 +37,8 @@ function DogCardContainer({ filter, order }) {
       }
       console.log("HOLA");
     }
+
+    setPage(1);
   }, [filter.temperament, filter.breed, copyDogsDb, copyDogsApi]);
 
   useEffect(() => {
@@ -81,14 +89,23 @@ function DogCardContainer({ filter, order }) {
         )
       );
     }
+
+    setPage(1);
   }, [filter.name]);
 
   return (
     <section className="container_dogCard">
       {dogsFilter.length > 0 &&
-        dogsFilter.map((dog) => <DogCard key={dog.id} {...dog} />)}
+        dogsFilter
+          .slice(
+            (page - 1) * dogsPerPage,
+            (page - 1) * dogsPerPage + dogsPerPage
+          )
+          .map((dog) => <DogCard key={dog.id} {...dog} />)}
 
       {dogsFilter.length === 0 && <p>Loading...</p>}
+
+      <Pagination page={page} setPage={setPage} totalPage={totalPage} />
     </section>
   );
 }
