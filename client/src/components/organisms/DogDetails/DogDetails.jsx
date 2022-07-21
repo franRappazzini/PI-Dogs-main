@@ -1,29 +1,34 @@
-import React, { useMemo } from "react";
-import { getDogs, getDogsDB } from "../../../redux/actions/dogActions";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
+import { getDogs } from "../../../redux/actions/dogActions";
 import imgDefault from "../../../assets/img/happy-happy-dog.gif";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 function DogDetails() {
+  const [dog, setDog] = useState({});
   const { breed } = useParams();
-  const dogs = useSelector((state) => state.dogs.dogs);
+  const dogsApi = useSelector((state) => state.dogs.dogsApi);
+  const dogsDb = useSelector((state) => state.dogs.dogsDb);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const dog =
-    dogs.length > 0 && breed ? dogs.find((dog) => dog.name === breed) : {};
+  useEffect(() => {
+    dispatch(getDogs());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   // dispatch(getDogs());
+  useEffect(() => {
+    dogsApi.length > 0 && dogsDb.length > 0
+      ? setDog(
+          dogsApi.find((dog) => dog.name === breed) ||
+            dogsDb.find((dog) => dog.name === breed)
+        )
+      : setDog({});
 
-  //   console.log("first");
-  // }, [dog, dispatch]);
+    console.log(dog);
+  }, [dogsApi, dogsDb, breed]);
 
-  // typeof dog === "object" && dog.hasOwnProperty("Temperaments")
-  //   ? dispatch(getDogsDB())
-  //   : dispatch(getDogs);
-
+  // para obtener los temperamentos de los perros creados
   const temperaments =
     typeof dog === "object" && dog.hasOwnProperty("Temperaments")
       ? dog.Temperaments.map((temp) => temp.name).join(", ")
@@ -31,7 +36,9 @@ function DogDetails() {
 
   return (
     <section>
-      {dog.name && (
+      <button onClick={() => navigate(-1)}>Home</button>
+
+      {Object.keys(dog).length > 0 ? (
         <article>
           {/* TODO poner iconos al lado de altura, peso, etc */}
           <img
@@ -45,6 +52,8 @@ function DogDetails() {
           <p>{dog.height.metric || dog.height}</p>
           <p>{dog.life_span}</p>
         </article>
+      ) : (
+        <p>Loading...</p>
       )}
     </section>
   );

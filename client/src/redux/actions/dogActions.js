@@ -3,6 +3,7 @@ import axios from "axios";
 export const GET_DOGS = "GET_DOGS";
 export const GET_DOG_DETAILS = "GET_DOG_DETAILS";
 export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS";
+export const FILTER_TEMP = "FILTER_TEMP";
 
 const URL_API = "https://api.thedogapi.com/v1/breeds";
 const URL_DOGS = "http://localhost:3001/dogs";
@@ -13,27 +14,33 @@ export function getDogs() {
     try {
       const res = await fetch(URL_API);
       const data = await res.json();
-      // const resDb = await fetch(URL_DOGS);
-      // const dataDb = await resDb.json();
+      const resDb = await fetch(URL_DOGS);
+      const dataDb = await resDb.json();
 
       // const allDogs = [...data, ...dataDb];
-      dispatch({ type: GET_DOGS, payload: data });
+      dispatch({ type: GET_DOGS, payload: data, payloadDb: dataDb });
     } catch (err) {
       console.log(err.message);
     }
   };
 }
 
-export function getDogsDB() {
-  return async (dispatch) => {
-    try {
-      const res = await fetch(URL_DOGS);
-      const data = await res.json();
+// export function getDogsDB() {
+//   return async (dispatch) => {
+//     try {
+//       const res = await fetch(URL_DOGS);
+//       const data = await res.json();
 
-      dispatch({ type: GET_DOGS, payload: data });
-    } catch (err) {
-      console.log(err.message);
-    }
+//       dispatch({ type: GET_DOGS, payload: data });
+//     } catch (err) {
+//       console.log(err.message);
+//     }
+//   };
+// }
+
+export function filterTemperament(temperament, dogs, dogsFilter) {
+  return (dispatch) => {
+    dispatch({ type: FILTER_TEMP, payload: temperament, dogs, dogsFilter });
   };
 }
 

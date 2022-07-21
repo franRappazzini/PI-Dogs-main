@@ -2,8 +2,8 @@ import "./Home.css";
 
 import React, { useState } from "react";
 import {
+  filterTemperament,
   getDogs,
-  getDogsDB,
   getTemperaments,
 } from "../../../redux/actions/dogActions";
 
@@ -16,17 +16,26 @@ function Home() {
   const [filter, setFilter] = useState({
     name: "",
     breed: "api",
+    // orderBy: "nameAsc",
     temperament: "",
-    orderByName: "",
-    orderByWeight: "",
   });
+  const [order, setOrder] = useState("nameAsc");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    filter.breed === "api" ? dispatch(getDogs()) : dispatch(getDogsDB());
+    if (filter.temperament !== "") {
+      const dogs = filter.breed === "api" ? "copyDogsApi" : "copyDogsDb";
+      const dogsFilter = filter.breed === "api" ? "dogsApi" : "dogsDb";
+      dispatch(filterTemperament(filter.temperament, dogs, dogsFilter));
+    } else {
+      dispatch(getDogs());
+      dispatch(getTemperaments());
+    }
 
-    dispatch(getTemperaments());
-  }, [filter.breed, dispatch]);
+    console.log("first");
+  }, [dispatch, filter.breed, filter.temperament]);
+
+  useEffect(() => {}, [filter.temperament, dispatch, filter.breed]);
 
   function handleChange(e) {
     setFilter({
@@ -35,11 +44,20 @@ function Home() {
     });
   }
 
+  function handleOrder(e) {
+    setOrder(e.target.value);
+  }
+
   return (
     <section>
-      <FormFilters filter={filter} handleChange={handleChange} />
+      <FormFilters
+        filter={filter}
+        handleChange={handleChange}
+        order={order}
+        handleOrder={handleOrder}
+      />
 
-      <DogCardContainer filter={filter} />
+      <DogCardContainer filter={filter} order={order} />
     </section>
   );
 }
