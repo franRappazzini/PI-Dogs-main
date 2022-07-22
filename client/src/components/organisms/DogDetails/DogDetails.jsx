@@ -1,9 +1,19 @@
+import "./DogDetails.css";
+
+import {
+  FaArrowsAltV,
+  FaHeart,
+  FaMapMarkerAlt,
+  FaRegSmile,
+  FaWeightHanging,
+} from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
 
+import Header from "../../molecules/Header/Header";
 import { getDogs } from "../../../redux/actions/dogActions";
 import imgDefault from "../../../assets/img/happy-happy-dog.gif";
+import { useParams } from "react-router-dom";
 
 function DogDetails() {
   const [dog, setDog] = useState({});
@@ -11,7 +21,6 @@ function DogDetails() {
   const dogsApi = useSelector((state) => state.dogs.dogsApi);
   const dogsDb = useSelector((state) => state.dogs.dogsDb);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getDogs());
@@ -33,28 +42,50 @@ function DogDetails() {
       : "";
 
   return (
-    <section className="max-width">
-      <button onClick={() => navigate(-1)}>Home</button>
+    <>
+      <Header />
 
-      {Object.keys(dog).length > 0 ? (
-        <article>
-          {/* TODO poner iconos al lado de altura, peso, etc */}
-          <img
-            src={dog.image ? dog.image.url : imgDefault}
-            alt={`img-${dog.name}`}
-          />
-          <h3>{dog.name}</h3>
-          {/* TODO agregar origen */}
-          {/* <p>{dog.temperament}</p> */}
-          <p>{dog.temperament || temperaments}</p>
-          <p>{dog.weight.metric || dog.weight}</p>
-          <p>{dog.height.metric || dog.height}</p>
-          <p>{dog.life_span}</p>
-        </article>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </section>
+      <main className="max-width dogDetail_container">
+        {Object.keys(dog).length > 0 ? (
+          <article className="dogDetail_article">
+            {/* TODO poner iconos al lado de altura, peso, etc */}
+            <img
+              src={dog.image ? dog.image.url : imgDefault}
+              alt={`img-${dog.name}`}
+            />
+
+            <section className="details_container">
+              <h3>{dog.name}</h3>
+              {/* TODO agregar origen */}
+              <p>
+                <FaRegSmile className="icon_detail" />
+                {dog.temperament || temperaments}
+              </p>
+              {dog.origin && (
+                <p>
+                  <FaMapMarkerAlt className="icon_detail" />
+                  {dog.origin}
+                </p>
+              )}
+              <p>
+                <FaWeightHanging className="icon_detail" />
+                {dog.weight.metric || dog.weight} kg
+              </p>
+              <p>
+                <FaArrowsAltV className="icon_detail" />
+                {dog.height.metric || dog.height} cm
+              </p>
+              <p>
+                <FaHeart className="icon_detail" />
+                {dog.life_span}
+              </p>
+            </section>
+          </article>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </main>
+    </>
   );
 }
 

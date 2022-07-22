@@ -21,7 +21,7 @@ function DogCard({ image, name, temperament, weight, Temperaments }) {
       className="tilt_card"
     >
       <Link to={`/dog/${name}`} className="article_dogCard">
-        <img src={image ? image.url : imgDefault} alt="name" />
+        <img src={image ? image.url : imgDefault} alt={`dog-${name}`} />
 
         <h3>{name}</h3>
         <p>

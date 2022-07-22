@@ -9,6 +9,7 @@ import {
 
 import DogCardContainer from "../../molecules/DogCard/DogCardContainer";
 import FormFilters from "../../molecules/FormFilters/FormFilters";
+import Header from "../../molecules/Header/Header";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
@@ -47,16 +48,20 @@ function Home() {
   }
 
   return (
-    <main className="max-width">
-      <FormFilters
-        filter={filter}
-        handleChange={handleChange}
-        order={order}
-        handleOrder={handleOrder}
-      />
+    <>
+      <Header />
 
-      <DogCardContainer filter={filter} order={order} />
-    </main>
+      <main className="max-width">
+        <FormFilters
+          filter={filter}
+          handleChange={handleChange}
+          order={order}
+          handleOrder={handleOrder}
+        />
+
+        <DogCardContainer filter={filter} order={order} />
+      </main>
+    </>
   );
 }
 

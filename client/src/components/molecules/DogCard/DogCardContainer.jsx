@@ -3,7 +3,9 @@ import "./DogCardContainer.css";
 import React, { useEffect, useState } from "react";
 
 import DogCard from "./DogCard";
+import Loader from "../../atoms/Loader/Loader";
 import Pagination from "../Pagination/Pagination";
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 const dogsPerPage = 8;
@@ -15,6 +17,7 @@ function DogCardContainer({ filter, order }) {
   );
   const [page, setPage] = useState(1);
   const totalPage = Math.ceil(dogsFilter.length / dogsPerPage);
+  const ref = useRef();
 
   useEffect(() => {
     if (dogsApi.length > 0 && filter.breed === "api") {
@@ -79,25 +82,39 @@ function DogCardContainer({ filter, order }) {
     }
   }, [order]);
 
-  useEffect(() => {
-    // TODO ver como hacer aca, porque al ir filtrando con lo ya filtrado
-    // no puedo volver atras al eliminar lo buscado
-    if (filter.name !== "") {
-      setDogsFilter(
-        [...dogsFilter].filter((dog) =>
-          dog.name.toLowerCase().includes(filter.name.toLowerCase())
-        )
-      );
-    }
+  // useEffect(() => {
+  //   // TODO ver como hacer aca, porque al ir filtrando con lo ya filtrado
+  //   // no puedo volver atras al eliminar lo buscado
+  //   if (filter.name !== "") {
+  //     setDogsFilter(
+  //       [...dogsFilter].filter((dog) =>
+  //         dog.name.toLowerCase().includes(filter.name.toLowerCase())
+  //       )
+  //     );
+  //   }
 
-    setPage(1);
-  }, [filter.name]);
+  //   setPage(1);
+  // }, [filter.name]);
 
   return (
-    <section className="section_dogCard">
+    <section className="section_dogCard" ref={ref}>
+      {dogsFilter.length === 0 ? (
+        <Loader />
+      ) : (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPage={totalPage}
+          reference={ref}
+        />
+      )}
+
       <div className="container_cards">
         {dogsFilter.length > 0 &&
           dogsFilter
+            .filter((dog) =>
+              dog.name.toLowerCase().includes(filter.name.toLowerCase())
+            )
             .slice(
               (page - 1) * dogsPerPage,
               (page - 1) * dogsPerPage + dogsPerPage
@@ -105,13 +122,14 @@ function DogCardContainer({ filter, order }) {
             .map((dog) => <DogCard key={dog.id} {...dog} />)}
       </div>
 
-      <div>
-        {dogsFilter.length === 0 ? (
-          <p>Loading...</p>
-        ) : (
-          <Pagination page={page} setPage={setPage} totalPage={totalPage} />
-        )}
-      </div>
+      {dogsFilter.length > 0 && (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPage={totalPage}
+          reference={ref}
+        />
+      )}
     </section>
   );
 }
