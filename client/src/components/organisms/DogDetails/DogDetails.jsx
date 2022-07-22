@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Header from "../../molecules/Header/Header";
+import Loader from "../../atoms/Loader/Loader";
 import { getDogs } from "../../../redux/actions/dogActions";
 import imgDefault from "../../../assets/img/happy-happy-dog.gif";
 import { useParams } from "react-router-dom";
@@ -48,15 +49,13 @@ function DogDetails() {
       <main className="max-width dogDetail_container">
         {Object.keys(dog).length > 0 ? (
           <article className="dogDetail_article">
-            {/* TODO poner iconos al lado de altura, peso, etc */}
             <img
               src={dog.image ? dog.image.url : imgDefault}
               alt={`img-${dog.name}`}
             />
 
             <section className="details_container">
-              <h3>{dog.name}</h3>
-              {/* TODO agregar origen */}
+              <h2>{dog.name}</h2>
               <p>
                 <FaRegSmile className="icon_detail" />
                 {dog.temperament || temperaments}
@@ -82,7 +81,7 @@ function DogDetails() {
             </section>
           </article>
         ) : (
-          <p>Loading...</p>
+          <Loader />
         )}
       </main>
     </>

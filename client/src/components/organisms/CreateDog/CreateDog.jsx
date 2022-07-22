@@ -9,13 +9,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 function CreateDog() {
-  // TODO validar form con regex (OBLIGATORIO)
-  const [form, setForm] = useState({
-    name: "",
-    height: "",
-    weight: "",
-    life_span: "",
-  });
+  const [name, setName] = useState("");
+  const [height, setHeight] = useState({ min: 1, max: "" });
+  const [weight, setWeight] = useState({ min: 1, max: "" });
+  const [life_span, setLifeSpan] = useState({ min: 1, max: "" });
   const [tempsSelected, setTempsSelected] = useState([]);
   const temperaments = useSelector((state) => state.dogs.temperaments);
   const dispatch = useDispatch();
@@ -26,19 +23,31 @@ function CreateDog() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    regexValidation();
 
-    await createDog(form, tempsSelected);
+    const heightStr = `${height.min} - ${height.max}`;
+    const weightStr = `${weight.min} - ${weight.max}`;
+    const life_spanStr = `${life_span.min} - ${life_span.max} years`;
 
-    setForm({ name: "", height: "", weight: "", life_span: "" });
+    const dataDog = {
+      name,
+      height: heightStr,
+      weight: weightStr,
+      life_span: life_spanStr,
+    };
+
+    await createDog(dataDog, tempsSelected);
+
+    setName("");
+    setHeight({ min: 1, max: "" });
+    setWeight({ min: 1, max: "" });
+    setLifeSpan({ min: 1, max: "" });
     setTempsSelected([]);
   }
 
-  function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  }
-
   function handleAddTemp(e) {
-    // TODO limitar cantidad a 5-8
+    if (tempsSelected.length > 6) return; // TODO crear modal para alert
+    if (e.target.value === "select") return;
     for (const key of tempsSelected) {
       if (key.temperaments === e.target.value) return;
     }
@@ -52,94 +61,165 @@ function CreateDog() {
     );
   }
 
+  function regexValidation() {
+    // TODO volver a poner required
+    // TODO hacer modal para cada uno de estos errores
+    if (!name.match(/^[a-zA-Z\s]*$/)) alert("error name");
+    else if (height.min >= height.max) alert("error height");
+    else if (weight.min >= weight.max) alert("error weight");
+    else if (life_span.min >= life_span.max) alert("error life_span");
+  }
+
   return (
     <>
       <Header />
 
       <main className="max-width">
         <form action="" className="form_createDog" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="name">Nombre:</label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Nombre"
-              required
-              value={form.name}
-              onChange={handleChange}
-            />
-          </div>
+          <section className="selectors_container">
+            <section>
+              <div className="input_container">
+                <label htmlFor="name">Nombre:</label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Nombre"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="input_unique"
+                />
+              </div>
 
-          <div>
-            <label htmlFor="height">Altura:</label>
-            <input
-              type="text"
-              name="height"
-              placeholder="Altura"
-              required
-              value={form.height}
-              onChange={handleChange}
-            />
-          </div>
+              <div className="input_container">
+                {/* TODO hacer entre y entre */}
+                <label htmlFor="height">Altura:</label>
+                <span>
+                  Entre{" "}
+                  <input
+                    type="number"
+                    name="min"
+                    placeholder="min"
+                    min={1}
+                    value={height.min}
+                    onChange={(e) =>
+                      setHeight({ ...height, min: e.target.value })
+                    }
+                    className="input_min-max"
+                  />{" "}
+                  y{" "}
+                  <input
+                    type="number"
+                    name="max"
+                    placeholder="max"
+                    min={2}
+                    value={height.max}
+                    onChange={(e) =>
+                      setHeight({ ...height, max: e.target.value })
+                    }
+                    className="input_min-max"
+                  />
+                </span>
+              </div>
 
-          <div>
-            <label htmlFor="weight">Peso:</label>
-            <input
-              type="text"
-              name="weight"
-              placeholder="Peso"
-              required
-              value={form.weight}
-              onChange={handleChange}
-            />
-          </div>
+              <div className="input_container">
+                {/* TODO hacer entre y entre */}
+                <label htmlFor="weight">Peso:</label>
+                <span>
+                  Entre{" "}
+                  <input
+                    type="number"
+                    name="min"
+                    placeholder="min"
+                    min={1}
+                    value={weight.min}
+                    onChange={(e) =>
+                      setWeight({ ...weight, min: e.target.value })
+                    }
+                    className="input_min-max"
+                  />{" "}
+                  y{" "}
+                  <input
+                    type="number"
+                    name="max"
+                    placeholder="max"
+                    min={2}
+                    value={weight.max}
+                    onChange={(e) =>
+                      setWeight({ ...weight, max: e.target.value })
+                    }
+                    className="input_min-max"
+                  />
+                </span>
+              </div>
 
-          <div>
-            <label htmlFor="life_span">Años de vida:</label>
-            <input
-              type="number"
-              name="life_span"
-              placeholder="Años de vida"
-              min={1}
-              value={form.life_span}
-              onChange={handleChange}
-            />
-          </div>
+              <div className="input_container">
+                <label htmlFor="life_span">Años de vida:</label>
+                <span>
+                  Entre{" "}
+                  <input
+                    type="number"
+                    name="life_span"
+                    placeholder="min"
+                    min={1}
+                    value={life_span.min}
+                    onChange={(e) =>
+                      setLifeSpan({ ...life_span, min: e.target.value })
+                    }
+                    className="input_min-max"
+                  />{" "}
+                  y{" "}
+                  <input
+                    type="number"
+                    name="life_span"
+                    placeholder="max"
+                    min={1}
+                    value={life_span.max}
+                    onChange={(e) =>
+                      setLifeSpan({ ...life_span, max: e.target.value })
+                    }
+                    className="input_min-max"
+                  />
+                </span>
+              </div>
+            </section>
 
-          {/* TODO pensar logica con back y db para los checkbox 
-        sino un input separados por comas + split
-        sino renderizando con btn*/}
-          <section>
-            <label htmlFor="temperaments">Temperamentos:</label>
-            <select name="temperaments" onChange={handleAddTemp}>
-              <option value="">Seleccionar..</option>
-              {temperaments.length > 0 &&
-                temperaments.map((temp) => (
-                  <option key={temp.id} value={temp.name}>
-                    {temp.name}
-                  </option>
-                ))}
-            </select>
-
-            <div className="temperaments_container">
-              {/* TODO poner icono de remove */}
-              {/* TODO pensar como hacer este disenio */}
-              {tempsSelected.length > 0 &&
-                tempsSelected.map((temp) => (
-                  <p key={temp.temperaments} className="temperament_selected">
-                    {temp.temperaments}{" "}
-                    <span
-                      id={`${temp.temperaments}`}
-                      onClick={handleRemoveTemp}
-                    >
-                      x
-                    </span>
-                  </p>
-                ))}
-            </div>
+            <section>
+              <div className="input_container">
+                <label htmlFor="temperaments">Temperamentos:</label>
+                <select name="temperaments" onChange={handleAddTemp}>
+                  <option value="select">Seleccionar..</option>
+                  {temperaments.length > 0 &&
+                    temperaments.map((temp) => (
+                      <option key={temp.id} value={temp.name}>
+                        {temp.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              {tempsSelected.length > 0 && (
+                <div className="temperaments_container">
+                  {/* TODO poner icono de remove */}
+                  {/* TODO pensar como hacer este disenio */}
+                  {tempsSelected.map((temp) => (
+                    <p key={temp.temperaments} className="temperament_selected">
+                      {temp.temperaments}
+                      <span
+                        id={`${temp.temperaments}`}
+                        onClick={handleRemoveTemp}
+                        title={"Remover"}
+                      >
+                        x
+                      </span>
+                    </p>
+                  ))}
+                </div>
+              )}
+            </section>
           </section>
 
-          <button type="submit">CREAR</button>
+          <div className="btn-submit_container">
+            <button type="submit">CREAR</button>
+          </div>
         </form>
       </main>
     </>
