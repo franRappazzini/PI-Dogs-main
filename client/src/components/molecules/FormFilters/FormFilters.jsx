@@ -10,13 +10,13 @@ function FormFilters({ filter, handleChange, order, handleOrder }) {
 
   return (
     <form action="" className="filter-form_container">
-      {/* TODO usar iconos para organizar order y filter */}
       <input
         type="text"
         placeholder="Buscar por raza"
         name="name"
         value={filter.name}
         onChange={handleChange}
+        autoComplete={"off"}
       />
 
       <div>
@@ -45,7 +45,6 @@ function FormFilters({ filter, handleChange, order, handleOrder }) {
       <div>
         <FaSortAmountDownAlt className="icon_filter" />
         <select name="orderBy" onChange={handleOrder}>
-          {/* <option value="default">-</option> */}
           <option value="nameAsc">Raza asc</option>
           <option value="nameDesc">Raza desc</option>
           <option value="weightAsc">Peso asc</option>

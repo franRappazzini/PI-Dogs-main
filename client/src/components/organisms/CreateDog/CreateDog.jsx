@@ -4,7 +4,9 @@ import { createDog, getTemperaments } from "../../../redux/actions/dogActions";
 import { useDispatch, useSelector } from "react-redux";
 
 import Header from "../../molecules/Header/Header";
+import InputDoble from "../../atoms/InputDoble/InputDoble";
 import React from "react";
+import TemperamentSelected from "../../atoms/TemperamentSelected/TemperamentSelected";
 import { useEffect } from "react";
 import { useState } from "react";
 
@@ -87,133 +89,28 @@ function CreateDog() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="input_unique"
+                  autoComplete={"off"}
                 />
               </div>
 
-              <div className="input_container">
-                {/* TODO hacer entre y entre */}
-                <label htmlFor="height">Altura:</label>
-                <span>
-                  Entre{" "}
-                  <input
-                    type="number"
-                    name="min"
-                    placeholder="min"
-                    min={1}
-                    value={height.min}
-                    onChange={(e) =>
-                      setHeight({ ...height, min: e.target.value })
-                    }
-                    className="input_min-max"
-                  />{" "}
-                  y{" "}
-                  <input
-                    type="number"
-                    name="max"
-                    placeholder="max"
-                    min={2}
-                    value={height.max}
-                    onChange={(e) =>
-                      setHeight({ ...height, max: e.target.value })
-                    }
-                    className="input_min-max"
-                  />
-                </span>
-              </div>
+              <InputDoble value={height} setState={setHeight} label="Altura" />
 
-              <div className="input_container">
-                {/* TODO hacer entre y entre */}
-                <label htmlFor="weight">Peso:</label>
-                <span>
-                  Entre{" "}
-                  <input
-                    type="number"
-                    name="min"
-                    placeholder="min"
-                    min={1}
-                    value={weight.min}
-                    onChange={(e) =>
-                      setWeight({ ...weight, min: e.target.value })
-                    }
-                    className="input_min-max"
-                  />{" "}
-                  y{" "}
-                  <input
-                    type="number"
-                    name="max"
-                    placeholder="max"
-                    min={2}
-                    value={weight.max}
-                    onChange={(e) =>
-                      setWeight({ ...weight, max: e.target.value })
-                    }
-                    className="input_min-max"
-                  />
-                </span>
-              </div>
+              <InputDoble value={weight} setState={setWeight} label="Peso" />
 
-              <div className="input_container">
-                <label htmlFor="life_span">Años de vida:</label>
-                <span>
-                  Entre{" "}
-                  <input
-                    type="number"
-                    name="life_span"
-                    placeholder="min"
-                    min={1}
-                    value={life_span.min}
-                    onChange={(e) =>
-                      setLifeSpan({ ...life_span, min: e.target.value })
-                    }
-                    className="input_min-max"
-                  />{" "}
-                  y{" "}
-                  <input
-                    type="number"
-                    name="life_span"
-                    placeholder="max"
-                    min={1}
-                    value={life_span.max}
-                    onChange={(e) =>
-                      setLifeSpan({ ...life_span, max: e.target.value })
-                    }
-                    className="input_min-max"
-                  />
-                </span>
-              </div>
+              <InputDoble
+                value={life_span}
+                setState={setLifeSpan}
+                label="Años de vida"
+              />
             </section>
 
             <section>
-              <div className="input_container">
-                <label htmlFor="temperaments">Temperamentos:</label>
-                <select name="temperaments" onChange={handleAddTemp}>
-                  <option value="select">Seleccionar..</option>
-                  {temperaments.length > 0 &&
-                    temperaments.map((temp) => (
-                      <option key={temp.id} value={temp.name}>
-                        {temp.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              {tempsSelected.length > 0 && (
-                <div className="temperaments_container">
-                  {/* TODO poner icono de remove */}
-                  {/* TODO pensar como hacer este disenio */}
-                  {tempsSelected.map((temp) => (
-                    <p key={temp.temperaments} className="temperament_selected">
-                      {temp.temperaments}
-                      <span
-                        id={`${temp.temperaments}`}
-                        onClick={handleRemoveTemp}
-                        title={"Remover"}
-                      >
-                        x
-                      </span>
-                    </p>
-                  ))}
-                </div>
-              )}
+              <TemperamentSelected
+                temperaments={temperaments}
+                tempsSelected={tempsSelected}
+                handleAddTemp={handleAddTemp}
+                handleRemoveTemp={handleRemoveTemp}
+              />
             </section>
           </section>
 
