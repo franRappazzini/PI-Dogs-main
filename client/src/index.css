@@ -16,3 +16,12 @@ code {
   max-width: 1440px;
   margin: 0 auto;
 }
+
+.component_container {
+  /* background-image: url("../public/background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed; */
+  backdrop-filter: blur(3px);
+  height: 100vh;
+}

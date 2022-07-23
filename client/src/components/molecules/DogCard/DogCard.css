@@ -13,6 +13,7 @@
   flex-direction: column;
   justify-content: space-between;
   border-radius: 3px;
+  transition: 0.1s;
 }
 
 .article_dogCard img {
@@ -24,10 +25,13 @@
 .article_dogCard:hover {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   transform: scale(1.02);
-  animation-duration: 1s;
 }
 
 @media only screen and (max-width: 820px) {
+  .article_dogCard:hover {
+    transform: none;
+  }
+
   .article_dogCard img {
     width: 250px;
     height: 220px;

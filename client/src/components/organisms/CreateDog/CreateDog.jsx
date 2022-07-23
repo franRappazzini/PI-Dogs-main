@@ -3,6 +3,7 @@ import "./CreateDog.css";
 import { createDog, getTemperaments } from "../../../redux/actions/dogActions";
 import { useDispatch, useSelector } from "react-redux";
 
+import Button from "../../atoms/Button/Button";
 import Header from "../../molecules/Header/Header";
 import InputDoble from "../../atoms/InputDoble/InputDoble";
 import React from "react";
@@ -73,10 +74,10 @@ function CreateDog() {
   }
 
   return (
-    <>
+    <section className="component_container">
       <Header />
 
-      <main className="max-width">
+      <main className="max-width form_container">
         <form action="" className="form_createDog" onSubmit={handleSubmit}>
           <section className="selectors_container">
             <section>
@@ -90,6 +91,7 @@ function CreateDog() {
                   onChange={(e) => setName(e.target.value)}
                   className="input_unique"
                   autoComplete={"off"}
+                  required
                 />
               </div>
 
@@ -115,11 +117,11 @@ function CreateDog() {
           </section>
 
           <div className="btn-submit_container">
-            <button type="submit">CREAR</button>
+            <Button type={"submit"} text={"Crear"} />
           </div>
         </form>
       </main>
-    </>
+    </section>
   );
 }
 

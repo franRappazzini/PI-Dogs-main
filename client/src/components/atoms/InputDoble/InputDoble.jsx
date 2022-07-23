@@ -15,6 +15,7 @@ function InputDoble({ value, setState, label }) {
           onChange={(e) => setState({ ...value, min: e.target.value })} // (e) => setHeight({ ...height, min: e.target.value })
           className="input_min-max"
           autoComplete={"off"}
+          required
         />{" "}
         y{" "}
         <input
@@ -26,6 +27,7 @@ function InputDoble({ value, setState, label }) {
           onChange={(e) => setState({ ...value, max: e.target.value })} // (e) => setHeight({ ...height, max: e.target.value })
           className="input_min-max"
           autoComplete={"off"}
+          required
         />
       </span>
     </div>

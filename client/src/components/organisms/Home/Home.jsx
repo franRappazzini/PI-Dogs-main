@@ -1,5 +1,3 @@
-import "./Home.css";
-
 import React, { useState } from "react";
 import {
   filterTemperament,
@@ -17,7 +15,6 @@ function Home() {
   const [filter, setFilter] = useState({
     name: "",
     breed: "api",
-    // orderBy: "nameAsc",
     temperament: "",
   });
   const [order, setOrder] = useState("nameAsc");
@@ -48,7 +45,7 @@ function Home() {
   }
 
   return (
-    <>
+    <section className="component_container">
       <Header />
 
       <main className="max-width">
@@ -61,7 +58,7 @@ function Home() {
 
         <DogCardContainer filter={filter} order={order} />
       </main>
-    </>
+    </section>
   );
 }
 

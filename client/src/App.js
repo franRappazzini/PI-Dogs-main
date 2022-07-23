@@ -10,11 +10,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* TODO sacar main a index.js para agregar header y footer */}
         <Route path="/" element={<Main />} />
 
         <Route path="/home" element={<Home />} />
 
+        {/* TODO solucionar problema de background */}
         <Route path="/dog/:breed" element={<DogDetails />} />
 
         <Route path="/createDog" element={<CreateDog />} />

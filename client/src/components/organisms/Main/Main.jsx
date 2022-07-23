@@ -1,5 +1,6 @@
 import "./Main.css";
 
+import Button from "../../atoms/Button/Button";
 import { Link } from "react-router-dom";
 import React from "react";
 
@@ -20,7 +21,7 @@ function Main() {
       </p>
 
       <Link to={"/home"}>
-        <button>INGRESAR A LA APP</button>
+        <Button text={"Ingresar a la app"} />
       </Link>
     </main>
   );

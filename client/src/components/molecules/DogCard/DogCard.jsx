@@ -5,7 +5,7 @@ import { FaRegSmile, FaWeightHanging } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import React from "react";
 import Tilt from "react-parallax-tilt";
-import imgDefault from "../../../assets/img/happy-happy-dog.gif";
+import imgDefault from "../../../assets/img/dog.jpg";
 
 function DogCard({ image, name, temperament, weight, Temperaments }) {
   const temperaments = Temperaments
@@ -14,7 +14,7 @@ function DogCard({ image, name, temperament, weight, Temperaments }) {
 
   return (
     <Tilt
-      // tiltEnable={window.innerWidth < 900 ? false : true}
+      tiltEnable={window.innerWidth < 900 ? false : true}
       tiltReverse={true}
       tiltMaxAngleX={6}
       tiltMaxAngleY={6}

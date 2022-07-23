@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../molecules/Header/Header";
 import Loader from "../../atoms/Loader/Loader";
 import { getDogs } from "../../../redux/actions/dogActions";
-import imgDefault from "../../../assets/img/happy-happy-dog.gif";
+import imgDefault from "../../../assets/img/dog.jpg";
 import { useParams } from "react-router-dom";
 
 function DogDetails() {
@@ -43,7 +43,7 @@ function DogDetails() {
       : "";
 
   return (
-    <>
+    <section className="component_container">
       <Header />
 
       <main className="max-width dogDetail_container">
@@ -84,7 +84,7 @@ function DogDetails() {
           <Loader />
         )}
       </main>
-    </>
+    </section>
   );
 }
 

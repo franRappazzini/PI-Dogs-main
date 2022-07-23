@@ -1,0 +1,7 @@
+.index_body {
+  background-image: url("./background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  scroll-behavior: smooth;
+}
