@@ -65,7 +65,6 @@ function CreateDog() {
   }
 
   function regexValidation() {
-    // TODO volver a poner required
     // TODO hacer modal para cada uno de estos errores
     if (!name.match(/^[a-zA-Z\s]*$/)) alert("error name");
     else if (height.min >= height.max) alert("error height");

@@ -43,7 +43,7 @@ function DogDetails() {
       : "";
 
   return (
-    <section className="component_container">
+    <section className="component_container--dogDetail">
       <Header />
 
       <main className="max-width dogDetail_container">
