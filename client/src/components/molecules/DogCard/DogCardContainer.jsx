@@ -20,17 +20,6 @@ function DogCardContainer({ filter, order }) {
   const ref = useRef();
 
   useEffect(() => {
-    if (dogsApi.length > 0 && filter.breed === "api") {
-      setDogsFilter(dogsApi);
-    } else if (dogsDb.length > 0 && filter.breed === "created") {
-      // TODO pensar aca como hacer en caso de que no existan creados
-      setDogsFilter(dogsDb);
-    } else setDogsFilter([]);
-
-    setPage(1);
-  }, [dogsApi, dogsDb, filter.breed]);
-
-  useEffect(() => {
     if (filter.temperament !== "") {
       if (filter.breed === "api") {
         setDogsFilter(copyDogsApi);
@@ -82,19 +71,32 @@ function DogCardContainer({ filter, order }) {
     }
   }, [order]);
 
-  // useEffect(() => {
-  //   // TODO ver como hacer aca, porque al ir filtrando con lo ya filtrado
-  //   // no puedo volver atras al eliminar lo buscado
-  //   if (filter.name !== "") {
-  //     setDogsFilter(
-  //       [...dogsFilter].filter((dog) =>
-  //         dog.name.toLowerCase().includes(filter.name.toLowerCase())
-  //       )
-  //     );
-  //   }
+  useEffect(() => {
+    if (filter.breed === "api") {
+      if (filter.name !== "") {
+        setDogsFilter(
+          [...dogsApi].filter((dog) =>
+            dog.name.toLowerCase().includes(filter.name.toLowerCase())
+          )
+        );
+      } else if (dogsApi.length > 0) {
+        setDogsFilter(dogsApi);
+      } else setDogsFilter([]);
+    } else if (filter.breed === "created") {
+      if (filter.name !== "") {
+        setDogsFilter(
+          [...dogsDb].filter((dog) =>
+            dog.name.toLowerCase().includes(filter.name.toLowerCase())
+          )
+        );
+      } else if (dogsDb.length > 0) {
+        setDogsFilter(dogsDb);
+      } else setDogsFilter([]);
+    }
 
-  //   setPage(1);
-  // }, [filter.name]);
+    setPage(1);
+    console.log("prbando");
+  }, [filter.name, filter.breed, dogsApi, dogsDb]);
 
   return (
     <section className="section_dogCard" ref={ref}>
@@ -112,9 +114,9 @@ function DogCardContainer({ filter, order }) {
       <div className="container_cards">
         {dogsFilter.length > 0 &&
           dogsFilter
-            .filter((dog) =>
-              dog.name.toLowerCase().includes(filter.name.toLowerCase())
-            )
+            // .filter((dog) =>
+            //   dog.name.toLowerCase().includes(filter.name.toLowerCase())
+            // )
             .slice(
               (page - 1) * dogsPerPage,
               (page - 1) * dogsPerPage + dogsPerPage
