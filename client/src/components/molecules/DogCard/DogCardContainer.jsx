@@ -110,15 +110,7 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
     }
 
     setPage(1);
-  }, [
-    filter.name,
-    filter.breed,
-    dogsApi,
-    dogsDb,
-    refTemp,
-    refOrder,
-    setFilter,
-  ]);
+  }, [filter.name, filter.breed, dogsApi, dogsDb]);
 
   return (
     <section className="section_dogCard">
