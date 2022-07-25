@@ -5,19 +5,16 @@ import React, { useEffect, useState } from "react";
 import DogCard from "./DogCard";
 import Loader from "../../atoms/Loader/Loader";
 import Pagination from "../Pagination/Pagination";
-import { useRef } from "react";
 import { useSelector } from "react-redux";
 
-const dogsPerPage = 8;
-
-function DogCardContainer({ filter, order }) {
+function DogCardContainer({ filter, refTemp, refOrder }) {
   const [dogsFilter, setDogsFilter] = useState([]);
   const { dogsApi, dogsDb, copyDogsApi, copyDogsDb } = useSelector(
     (state) => state.dogs
   );
   const [page, setPage] = useState(1);
+  const dogsPerPage = 8;
   const totalPage = Math.ceil(dogsFilter.length / dogsPerPage);
-  const ref = useRef();
 
   useEffect(() => {
     if (filter.temperament !== "") {
@@ -27,7 +24,6 @@ function DogCardContainer({ filter, order }) {
         // TODO pensar aca como hacer en caso de que no existan creado
         setDogsFilter(copyDogsDb);
       }
-      console.log("HOLA");
     }
 
     setPage(1);
@@ -35,15 +31,15 @@ function DogCardContainer({ filter, order }) {
 
   useEffect(() => {
     if (dogsFilter.length) {
-      if (order === "nameAsc") {
+      if (filter.order === "nameAsc") {
         setDogsFilter(
           [...dogsFilter].sort((a, b) => a.name.localeCompare(b.name))
         );
-      } else if (order === "nameDesc") {
+      } else if (filter.order === "nameDesc") {
         setDogsFilter(
           [...dogsFilter].sort((a, b) => b.name.localeCompare(a.name))
         );
-      } else if (order === "weightAsc") {
+      } else if (filter.order === "weightAsc") {
         setDogsFilter(
           [...dogsFilter].sort(
             (a, b) =>
@@ -54,7 +50,7 @@ function DogCardContainer({ filter, order }) {
               (a.weight && a.weight - b.weight) // para los perros creados
           )
         );
-      } else if (order === "weightDesc") {
+      } else if (filter.order === "weightDesc") {
         setDogsFilter(
           [...dogsFilter].sort(
             (a, b) =>
@@ -69,10 +65,15 @@ function DogCardContainer({ filter, order }) {
         );
       }
     }
-  }, [order]);
+  }, [filter.order]);
 
   useEffect(() => {
     if (filter.breed === "api") {
+      // TODO ver como hacer aca porque no cambia cuando cambio entre api y creados
+      // reinicia el orden y el temperamento
+      refTemp.current.value = "";
+      refOrder.current.value = "nameAsc";
+
       if (filter.name !== "") {
         setDogsFilter(
           [...dogsApi].filter((dog) =>
@@ -83,6 +84,10 @@ function DogCardContainer({ filter, order }) {
         setDogsFilter(dogsApi);
       } else setDogsFilter([]);
     } else if (filter.breed === "created") {
+      // reinicia el orden y el temperamento
+      refTemp.current.value = "";
+      refOrder.current.value = "nameAsc";
+
       if (filter.name !== "") {
         setDogsFilter(
           [...dogsDb].filter((dog) =>
@@ -96,27 +101,19 @@ function DogCardContainer({ filter, order }) {
 
     setPage(1);
     console.log("prbando");
-  }, [filter.name, filter.breed, dogsApi, dogsDb]);
+  }, [filter.name, filter.breed, dogsApi, dogsDb, refTemp, refOrder]);
 
   return (
-    <section className="section_dogCard" ref={ref}>
+    <section className="section_dogCard">
       {dogsFilter.length === 0 ? (
         <Loader />
       ) : (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          totalPage={totalPage}
-          reference={ref}
-        />
+        <Pagination page={page} setPage={setPage} totalPage={totalPage} />
       )}
 
       <div className="container_cards">
         {dogsFilter.length > 0 &&
           dogsFilter
-            // .filter((dog) =>
-            //   dog.name.toLowerCase().includes(filter.name.toLowerCase())
-            // )
             .slice(
               (page - 1) * dogsPerPage,
               (page - 1) * dogsPerPage + dogsPerPage
@@ -125,12 +122,7 @@ function DogCardContainer({ filter, order }) {
       </div>
 
       {dogsFilter.length > 0 && (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          totalPage={totalPage}
-          reference={ref}
-        />
+        <Pagination page={page} setPage={setPage} totalPage={totalPage} />
       )}
     </section>
   );

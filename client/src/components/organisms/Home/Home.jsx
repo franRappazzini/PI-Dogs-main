@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   filterTemperament,
   getDogs,
@@ -15,10 +15,12 @@ function Home() {
   const [filter, setFilter] = useState({
     name: "",
     breed: "api",
+    order: "nameAsc",
     temperament: "",
   });
-  const [order, setOrder] = useState("nameAsc");
   const dispatch = useDispatch();
+  const refTemp = useRef();
+  const refOrder = useRef();
 
   useEffect(() => {
     if (filter.temperament !== "") {
@@ -40,10 +42,6 @@ function Home() {
     });
   }
 
-  function handleOrder(e) {
-    setOrder(e.target.value);
-  }
-
   return (
     <section className="component_container">
       <Header />
@@ -52,11 +50,16 @@ function Home() {
         <FormFilters
           filter={filter}
           handleChange={handleChange}
-          order={order}
-          handleOrder={handleOrder}
+          refTemp={refTemp}
+          refOrder={refOrder}
         />
 
-        <DogCardContainer filter={filter} order={order} />
+        <DogCardContainer
+          filter={filter}
+          setFilter={setFilter}
+          refTemp={refTemp}
+          refOrder={refOrder}
+        />
       </main>
     </section>
   );

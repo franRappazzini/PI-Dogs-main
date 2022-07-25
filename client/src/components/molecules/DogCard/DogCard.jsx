@@ -24,9 +24,11 @@ function DogCard({ image, name, temperament, weight, Temperaments }) {
         <img src={image ? image.url : imgDefault} alt={`dog-${name}`} />
 
         <h3>{name}</h3>
-        <p>
-          <FaRegSmile /> {temperament || temperaments}
-        </p>
+        {(temperament || temperaments) && (
+          <p>
+            <FaRegSmile /> {temperament || temperaments}
+          </p>
+        )}
         <p>
           <FaWeightHanging /> {weight.metric || weight} kg
         </p>

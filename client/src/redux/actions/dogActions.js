@@ -26,36 +26,11 @@ export function getDogs() {
   };
 }
 
-// export function getDogsDB() {
-//   return async (dispatch) => {
-//     try {
-//       const res = await fetch(URL_DOGS);
-//       const data = await res.json();
-
-//       dispatch({ type: GET_DOGS, payload: data });
-//     } catch (err) {
-//       console.log(err.message);
-//     }
-//   };
-// }
-
 export function filterTemperament(temperament, dogs, dogsFilter) {
   return (dispatch) => {
     dispatch({ type: FILTER_TEMP, payload: temperament, dogs, dogsFilter });
   };
 }
-
-// export function getDogDetails(breed) {
-//   return async (dispatch) => {
-//     try {
-//       const res = await fetch(`${URL_API}/search?q=${breed}`);
-//       const data = await res.json();
-//       dispatch({ type: GET_DOG_DETAILS, payload: data });
-//     } catch (err) {
-//       console.log(err.message);
-//     }
-//   };
-// }
 
 export async function createDog(dog, temps) {
   const { name, height, weight, life_span } = dog;
