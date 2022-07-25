@@ -31,8 +31,6 @@ function Home() {
       dispatch(getDogs());
       dispatch(getTemperaments());
     }
-
-    console.log("first");
   }, [dispatch, filter.breed, filter.temperament]);
 
   function handleChange(e) {

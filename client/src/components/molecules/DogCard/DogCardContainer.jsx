@@ -7,7 +7,7 @@ import Loader from "../../atoms/Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import { useSelector } from "react-redux";
 
-function DogCardContainer({ filter, refTemp, refOrder }) {
+function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
   const [dogsFilter, setDogsFilter] = useState([]);
   const { dogsApi, dogsDb, copyDogsApi, copyDogsDb } = useSelector(
     (state) => state.dogs
@@ -69,10 +69,15 @@ function DogCardContainer({ filter, refTemp, refOrder }) {
 
   useEffect(() => {
     if (filter.breed === "api") {
-      // TODO ver como hacer aca porque no cambia cuando cambio entre api y creados
+      // TODO ver como hacer aca porque no cambia cuando cambio entre api y creados (MEJORAR)
       // reinicia el orden y el temperamento
       refTemp.current.value = "";
       refOrder.current.value = "nameAsc";
+      setFilter({
+        ...filter,
+        temperament: "",
+        order: "nameAsc",
+      });
 
       if (filter.name !== "") {
         setDogsFilter(
@@ -87,6 +92,11 @@ function DogCardContainer({ filter, refTemp, refOrder }) {
       // reinicia el orden y el temperamento
       refTemp.current.value = "";
       refOrder.current.value = "nameAsc";
+      setFilter({
+        ...filter,
+        temperament: "",
+        order: "nameAsc",
+      });
 
       if (filter.name !== "") {
         setDogsFilter(
@@ -100,8 +110,15 @@ function DogCardContainer({ filter, refTemp, refOrder }) {
     }
 
     setPage(1);
-    console.log("prbando");
-  }, [filter.name, filter.breed, dogsApi, dogsDb, refTemp, refOrder]);
+  }, [
+    filter.name,
+    filter.breed,
+    dogsApi,
+    dogsDb,
+    refTemp,
+    refOrder,
+    setFilter,
+  ]);
 
   return (
     <section className="section_dogCard">
