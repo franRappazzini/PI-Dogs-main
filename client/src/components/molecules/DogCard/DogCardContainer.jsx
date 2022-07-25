@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
   const [dogsFilter, setDogsFilter] = useState([]);
-  const { dogsApi, dogsDb, copyDogsApi, copyDogsDb } = useSelector(
+  const { allDogs, dogsApi, dogsDb, copyDogsApi, copyDogsDb } = useSelector(
     (state) => state.dogs
   );
   const [page, setPage] = useState(1);
@@ -18,16 +18,15 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
 
   useEffect(() => {
     if (filter.temperament !== "") {
-      if (filter.breed === "api") {
-        setDogsFilter(copyDogsApi);
-      } else if (filter.breed === "created") {
-        // TODO pensar aca como hacer en caso de que no existan creado
-        setDogsFilter(copyDogsDb);
-      }
+      if (filter.breed === "all") setDogsFilter(allDogs);
+      else if (filter.breed === "api") setDogsFilter(copyDogsApi);
+      else if (filter.breed === "created") setDogsFilter(copyDogsDb);
     }
 
+    console.log(allDogs);
+
     setPage(1);
-  }, [filter.temperament, filter.breed, copyDogsDb, copyDogsApi]);
+  }, [filter.temperament, filter.breed, copyDogsDb, copyDogsApi, allDogs]);
 
   useEffect(() => {
     if (dogsFilter.length) {
@@ -68,7 +67,27 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
   }, [filter.order]);
 
   useEffect(() => {
-    if (filter.breed === "api") {
+    if (filter.breed === "all") {
+      // TODO ver como hacer aca porque no cambia cuando cambio entre api y creados (MEJORAR)
+      // reinicia el orden y el temperamento
+      refTemp.current.value = "";
+      refOrder.current.value = "nameAsc";
+      setFilter({
+        ...filter,
+        temperament: "",
+        order: "nameAsc",
+      });
+
+      if (filter.name !== "") {
+        setDogsFilter(
+          [...allDogs].filter((dog) =>
+            dog.name.toLowerCase().includes(filter.name.toLowerCase())
+          )
+        );
+      } else if (allDogs.length > 0) {
+        setDogsFilter(allDogs);
+      } else setDogsFilter([]);
+    } else if (filter.breed === "api") {
       // TODO ver como hacer aca porque no cambia cuando cambio entre api y creados (MEJORAR)
       // reinicia el orden y el temperamento
       refTemp.current.value = "";

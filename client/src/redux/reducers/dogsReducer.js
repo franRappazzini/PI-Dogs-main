@@ -6,10 +6,12 @@ import {
 } from "../actions/dogActions";
 
 const initialState = {
+  allDogs: [],
   dogsApi: [],
   dogsDb: [],
   dogDetails: [],
   temperaments: [],
+  copyAllDogs: [],
   copyDogsApi: [],
   copyDogsDb: [],
 };
@@ -19,8 +21,10 @@ export function dogsReducer(state = initialState, action) {
     case GET_DOGS:
       return {
         ...state,
+        allDogs: action.allDogs,
         dogsApi: action.payload,
         dogsDb: action.payloadDb,
+        copyAllDogs: action.allDogs,
         copyDogsApi: action.payload,
         copyDogsDb: action.payloadDb,
       };

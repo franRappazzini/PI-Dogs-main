@@ -14,7 +14,7 @@ import { useEffect } from "react";
 function Home() {
   const [filter, setFilter] = useState({
     name: "",
-    breed: "api",
+    breed: "all",
     order: "nameAsc",
     temperament: "",
   });
@@ -24,8 +24,20 @@ function Home() {
 
   useEffect(() => {
     if (filter.temperament !== "") {
-      const dogs = filter.breed === "api" ? "copyDogsApi" : "copyDogsDb";
-      const dogsFilter = filter.breed === "api" ? "dogsApi" : "dogsDb";
+      const dogs =
+        filter.breed === "all"
+          ? "copyAllDogs"
+          : filter.breed === "api"
+          ? "copyDogsApi"
+          : "copyDogsDb";
+
+      const dogsFilter =
+        filter.breed === "all"
+          ? "allDogs"
+          : filter.breed === "api"
+          ? "dogsApi"
+          : "dogsDb";
+
       dispatch(filterTemperament(filter.temperament, dogs, dogsFilter));
     } else {
       dispatch(getDogs());

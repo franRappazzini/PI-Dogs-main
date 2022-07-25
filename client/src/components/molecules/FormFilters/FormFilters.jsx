@@ -35,8 +35,7 @@ function FormFilters({ filter, handleChange, refTemp, refOrder }) {
       <div>
         <FaDog className="icon_filter" />
         <select name="breed" onChange={handleChange}>
-          {/* TODO ver si agregar 'todos' */}
-          {/* <option value="all">todas</option> */}
+          <option value="all">Todos</option>
           <option value="api">API</option>
           <option value="created">Creados</option>
         </select>

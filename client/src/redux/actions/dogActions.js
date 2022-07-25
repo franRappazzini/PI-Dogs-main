@@ -18,8 +18,9 @@ export function getDogs() {
       const resDb = await fetch(URL_DOGS);
       const dataDb = await resDb.json();
 
-      // const allDogs = [...data, ...dataDb];
-      dispatch({ type: GET_DOGS, payload: data, payloadDb: dataDb });
+      const allDogs = [...data, ...dataDb];
+
+      dispatch({ type: GET_DOGS, payload: data, payloadDb: dataDb, allDogs });
     } catch (err) {
       console.log(err.message);
     }
