@@ -7,6 +7,7 @@ import {
   FaRegSmile,
   FaWeightHanging,
 } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,7 +15,6 @@ import Header from "../../molecules/Header/Header";
 import Loader from "../../atoms/Loader/Loader";
 import { getDogs } from "../../../redux/actions/dogActions";
 import imgDefault from "../../../assets/img/dog.jpg";
-import { useParams } from "react-router-dom";
 
 function DogDetails() {
   const [dog, setDog] = useState({});
@@ -47,6 +47,12 @@ function DogDetails() {
       <Header />
 
       <main className="max-width dogDetail_container">
+        <section className="breadcrumb">
+          <span>
+            <Link to={"/home"}>Dogs</Link> / {breed ? breed : ""}
+          </span>
+        </section>
+
         {Object.keys(dog).length > 0 ? (
           <article className="dogDetail_article">
             <img
