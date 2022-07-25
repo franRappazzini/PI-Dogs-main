@@ -9,24 +9,28 @@ import { useSelector } from "react-redux";
 
 function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
   const [dogsFilter, setDogsFilter] = useState([]);
-  const { allDogs, dogsApi, dogsDb, copyDogsApi, copyDogsDb } = useSelector(
-    (state) => state.dogs
-  );
+  const { allDogs, dogsApi, dogsDb, copyAllDogs, copyDogsApi, copyDogsDb } =
+    useSelector((state) => state.dogs);
   const [page, setPage] = useState(1);
   const dogsPerPage = 8;
   const totalPage = Math.ceil(dogsFilter.length / dogsPerPage);
 
-  useEffect(() => {
-    if (filter.temperament !== "") {
-      if (filter.breed === "all") setDogsFilter(allDogs);
-      else if (filter.breed === "api") setDogsFilter(copyDogsApi);
-      else if (filter.breed === "created") setDogsFilter(copyDogsDb);
-    }
+  // useEffect(() => {
+  //   if (filter.temperament !== "") {
+  //     if (filter.breed === "all") setDogsFilter(copyAllDogs);
+  //     else if (filter.breed === "api") setDogsFilter(copyDogsApi);
+  //     else if (filter.breed === "created") setDogsFilter(copyDogsDb);
+  //   }
 
-    console.log(allDogs);
-
-    setPage(1);
-  }, [filter.temperament, filter.breed, copyDogsDb, copyDogsApi, allDogs]);
+  //   setPage(1);
+  // }, [
+  //   filter.temperament,
+  //   filter.breed,
+  //   copyDogsDb,
+  //   copyDogsApi,
+  //   allDogs,
+  //   copyAllDogs,
+  // ]);
 
   useEffect(() => {
     if (dogsFilter.length) {
@@ -42,6 +46,7 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
         setDogsFilter(
           [...dogsFilter].sort(
             (a, b) =>
+              // TODO ver como hacer este order
               (a.weight.metric &&
                 // paso los primeros dos valores a numeros
                 parseInt(`${a.weight.metric[0]}${a.weight.metric[1]}`) -
@@ -68,16 +73,6 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
 
   useEffect(() => {
     if (filter.breed === "all") {
-      // TODO ver como hacer aca porque no cambia cuando cambio entre api y creados (MEJORAR)
-      // reinicia el orden y el temperamento
-      refTemp.current.value = "";
-      refOrder.current.value = "nameAsc";
-      setFilter({
-        ...filter,
-        temperament: "",
-        order: "nameAsc",
-      });
-
       if (filter.name !== "") {
         setDogsFilter(
           [...allDogs].filter((dog) =>
@@ -88,16 +83,6 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
         setDogsFilter(allDogs);
       } else setDogsFilter([]);
     } else if (filter.breed === "api") {
-      // TODO ver como hacer aca porque no cambia cuando cambio entre api y creados (MEJORAR)
-      // reinicia el orden y el temperamento
-      refTemp.current.value = "";
-      refOrder.current.value = "nameAsc";
-      setFilter({
-        ...filter,
-        temperament: "",
-        order: "nameAsc",
-      });
-
       if (filter.name !== "") {
         setDogsFilter(
           [...dogsApi].filter((dog) =>
@@ -108,15 +93,6 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
         setDogsFilter(dogsApi);
       } else setDogsFilter([]);
     } else if (filter.breed === "created") {
-      // reinicia el orden y el temperamento
-      refTemp.current.value = "";
-      refOrder.current.value = "nameAsc";
-      setFilter({
-        ...filter,
-        temperament: "",
-        order: "nameAsc",
-      });
-
       if (filter.name !== "") {
         setDogsFilter(
           [...dogsDb].filter((dog) =>
@@ -129,7 +105,7 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
     }
 
     setPage(1);
-  }, [filter.name, filter.breed, dogsApi, dogsDb]);
+  }, [filter.name, filter.breed, dogsApi, dogsDb, allDogs]);
 
   return (
     <section className="section_dogCard">

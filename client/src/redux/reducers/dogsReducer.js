@@ -21,10 +21,12 @@ export function dogsReducer(state = initialState, action) {
     case GET_DOGS:
       return {
         ...state,
-        allDogs: action.allDogs,
+        allDogs: action.allDogs.sort((a, b) => a.name.localeCompare(b.name)),
         dogsApi: action.payload,
         dogsDb: action.payloadDb,
-        copyAllDogs: action.allDogs,
+        copyAllDogs: action.allDogs.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        ),
         copyDogsApi: action.payload,
         copyDogsDb: action.payloadDb,
       };

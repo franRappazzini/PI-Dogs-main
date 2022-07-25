@@ -24,19 +24,15 @@ function Home() {
 
   useEffect(() => {
     if (filter.temperament !== "") {
-      const dogs =
-        filter.breed === "all"
-          ? "copyAllDogs"
-          : filter.breed === "api"
-          ? "copyDogsApi"
-          : "copyDogsDb";
+      let dogs = "";
+      if (filter.breed === "all") dogs = "allDogs";
+      else if (filter.breed === "api") dogs = "dogsApi";
+      else if (filter.breed === "created") dogs = "dogsDb";
 
-      const dogsFilter =
-        filter.breed === "all"
-          ? "allDogs"
-          : filter.breed === "api"
-          ? "dogsApi"
-          : "dogsDb";
+      let dogsFilter = "";
+      if (filter.breed === "all") dogsFilter = "copyAllDogs";
+      else if (filter.breed === "api") dogsFilter = "copyDogsApi";
+      else if (filter.breed === "created") dogsFilter = "copyDogsDb";
 
       dispatch(filterTemperament(filter.temperament, dogs, dogsFilter));
     } else {
