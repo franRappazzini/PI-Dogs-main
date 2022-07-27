@@ -19,6 +19,7 @@ function Home() {
     temperament: "",
   });
   const dispatch = useDispatch();
+  // TODO ver si sacar refTemp (no se usa actualmente)
   const refTemp = useRef();
   const refOrder = useRef();
 
@@ -34,6 +35,8 @@ function Home() {
       else if (filter.breed === "api") dogsFilter = "copyDogsApi";
       else if (filter.breed === "created") dogsFilter = "copyDogsDb";
 
+      setFilter({ ...filter, order: "nameAsc" });
+      refOrder.current.value = "nameAsc";
       dispatch(filterTemperament(filter.temperament, dogs, dogsFilter));
     } else {
       dispatch(getDogs());

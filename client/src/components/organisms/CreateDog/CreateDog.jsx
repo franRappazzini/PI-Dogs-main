@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../../atoms/Button/Button";
 import Header from "../../molecules/Header/Header";
 import InputDoble from "../../atoms/InputDoble/InputDoble";
+import ModalError from "../../atoms/Modal/Modal";
 import React from "react";
 import TemperamentSelected from "../../atoms/TemperamentSelected/TemperamentSelected";
 import { useEffect } from "react";
@@ -17,6 +18,11 @@ function CreateDog() {
   const [weight, setWeight] = useState({ min: 1, max: "" });
   const [life_span, setLifeSpan] = useState({ min: 1, max: "" });
   const [tempsSelected, setTempsSelected] = useState([]);
+  const [modal, setModal] = useState({
+    text: "",
+    error: false,
+    success: false,
+  });
   const temperaments = useSelector((state) => state.dogs.temperaments);
   const dispatch = useDispatch();
 
@@ -26,7 +32,10 @@ function CreateDog() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    regexValidation();
+
+    console.log({ name, height, weight, life_span });
+
+    if (regexValidation()) return;
 
     const heightStr = `${height.min} - ${height.max}`;
     const weightStr = `${weight.min} - ${weight.max}`;
@@ -40,6 +49,12 @@ function CreateDog() {
     };
 
     await createDog(dataDog, tempsSelected);
+
+    setModal({
+      text: `"${name}" creado con exito!`,
+      error: false,
+      success: true,
+    });
 
     setName("");
     setHeight({ min: 1, max: "" });
@@ -66,10 +81,39 @@ function CreateDog() {
 
   function regexValidation() {
     // TODO hacer modal para cada uno de estos errores
-    if (!name.match(/^[a-zA-Z\s]*$/)) alert("error name");
-    else if (height.min >= height.max) alert("error height");
-    else if (weight.min >= weight.max) alert("error weight");
-    else if (life_span.min >= life_span.max) alert("error life_span");
+    if (!name.match(/^[a-zA-Z\s]*$/)) {
+      setModal({
+        text: "El nombre solo debe contener letras",
+        error: true,
+        success: false,
+      });
+      return true;
+    } else if (parseInt(height.min) >= parseInt(height.max)) {
+      setModal({
+        text: "La altura minima debe ser mayor a 1 y menor a la altura maxima",
+        error: true,
+        success: false,
+      });
+      return true;
+    } else if (parseInt(weight.min) >= parseInt(weight.max)) {
+      setModal({
+        text: "El peso minimo debe ser mayor a 1 y menor al peso maximo",
+        error: true,
+        success: false,
+      });
+      return true;
+    } else if (parseInt(life_span.min) >= parseInt(life_span.max)) {
+      setModal({
+        text: "La edad minima debe ser mayor a 1 y menor a la edad maxima",
+        error: true,
+        success: false,
+      });
+      return true;
+    } else return false;
+  }
+
+  function onClose() {
+    setModal({ text: "", error: false, success: false });
   }
 
   return (
@@ -77,6 +121,10 @@ function CreateDog() {
       <Header />
 
       <main className="max-width form_container">
+        {(modal.error || modal.success) && (
+          <ModalError modal={modal} onClose={onClose} />
+        )}
+
         <form action="" className="form_createDog" onSubmit={handleSubmit}>
           <section className="selectors_container">
             <section>

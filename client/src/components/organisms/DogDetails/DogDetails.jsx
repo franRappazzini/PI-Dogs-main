@@ -23,6 +23,8 @@ function DogDetails() {
   const dogsDb = useSelector((state) => state.dogs.dogsDb);
   const dispatch = useDispatch();
 
+  // TODO ver error cuando busco perro por url que no existe
+
   useEffect(() => {
     dispatch(getDogs());
   }, [dispatch]);

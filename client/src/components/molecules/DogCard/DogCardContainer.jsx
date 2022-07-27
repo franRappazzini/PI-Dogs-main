@@ -45,26 +45,13 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
       } else if (filter.order === "weightAsc") {
         setDogsFilter(
           [...dogsFilter].sort(
-            (a, b) =>
-              // TODO ver como hacer este order
-              (a.weight.metric &&
-                // paso los primeros dos valores a numeros
-                parseInt(`${a.weight.metric[0]}${a.weight.metric[1]}`) -
-                  parseInt(`${b.weight.metric[0]}${b.weight.metric[1]}`)) ||
-              (a.weight && a.weight - b.weight) // para los perros creados
+            (a, b) => returnNum(a.weight, 0) - returnNum(b.weight, 0)
           )
         );
       } else if (filter.order === "weightDesc") {
         setDogsFilter(
           [...dogsFilter].sort(
-            (a, b) =>
-              (b.weight.metric &&
-                // paso los ultimos dos valores a numeros
-                parseInt(`${b.weight.metric.at(-2) + b.weight.metric.at(-1)}`) -
-                  parseInt(
-                    `${a.weight.metric.at(-2) + a.weight.metric.at(-1)}`
-                  )) ||
-              (b.weight && b.weight - a.weight) // para los perros creados
+            (a, b) => returnNum(b.weight, 1) - returnNum(a.weight, 1)
           )
         );
       }
@@ -72,8 +59,14 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
   }, [filter.order]);
 
   useEffect(() => {
+    // setFilter({ ...filter, temperament: "", order: "nameAsc" });
+    // refTemp.current.value = " ";
+    // refOrder.current.value = "nameAsc";
+
     if (filter.breed === "all") {
       if (filter.name !== "") {
+        setFilter({ ...filter, order: "nameAsc" });
+        refOrder.current.value = "nameAsc";
         setDogsFilter(
           [...allDogs].filter((dog) =>
             dog.name.toLowerCase().includes(filter.name.toLowerCase())
@@ -84,6 +77,8 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
       } else setDogsFilter([]);
     } else if (filter.breed === "api") {
       if (filter.name !== "") {
+        setFilter({ ...filter, order: "nameAsc" });
+        refOrder.current.value = "nameAsc";
         setDogsFilter(
           [...dogsApi].filter((dog) =>
             dog.name.toLowerCase().includes(filter.name.toLowerCase())
@@ -94,6 +89,8 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
       } else setDogsFilter([]);
     } else if (filter.breed === "created") {
       if (filter.name !== "") {
+        setFilter({ ...filter, order: "nameAsc" });
+        refOrder.current.value = "nameAsc";
         setDogsFilter(
           [...dogsDb].filter((dog) =>
             dog.name.toLowerCase().includes(filter.name.toLowerCase())
@@ -106,6 +103,18 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
 
     setPage(1);
   }, [filter.name, filter.breed, dogsApi, dogsDb, allDogs]);
+
+  function returnNum(weight, pos) {
+    if (weight.metric && weight.metric.includes("-")) {
+      if (isNaN(parseInt(weight.metric.split(" - ")[pos]))) return -1;
+      return parseInt(weight.metric.split(" - ")[pos]);
+    } else if (weight.metric) {
+      if (isNaN(weight.metric)) return -1;
+      return parseInt(weight.metric);
+    } else if (typeof weight === "string") {
+      return parseInt(weight.split(" - ")[pos]);
+    }
+  }
 
   return (
     <section className="section_dogCard">

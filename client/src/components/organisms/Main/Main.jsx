@@ -6,7 +6,7 @@ import React from "react";
 
 function Main() {
   return (
-    <main className="main">
+    <main className="main component_container">
       <h3>Bienvenido al Proyecto Individual de Dogs</h3>
 
       <p>

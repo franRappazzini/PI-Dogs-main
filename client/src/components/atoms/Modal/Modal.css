@@ -1,0 +1,27 @@
+.modalError_background {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalError_container {
+  background-color: whitesmoke;
+  backdrop-filter: blur(3px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  border-radius: 0.5rem;
+}
+
+.modalError_container p {
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
