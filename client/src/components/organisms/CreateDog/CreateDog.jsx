@@ -33,8 +33,6 @@ function CreateDog() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log({ name, height, weight, life_span });
-
     if (regexValidation()) return;
 
     const heightStr = `${height.min} - ${height.max}`;
@@ -48,7 +46,16 @@ function CreateDog() {
       life_span: life_spanStr,
     };
 
-    await createDog(dataDog, tempsSelected);
+    const res = await createDog(dataDog, tempsSelected);
+
+    // TODO no obtiene error que yo envio
+    if (res.error) {
+      return setModal({
+        text: res.error,
+        error: true,
+        success: false,
+      });
+    }
 
     setModal({
       text: `"${name}" creado con exito!`,

@@ -23,8 +23,6 @@ function DogDetails() {
   const dogsDb = useSelector((state) => state.dogs.dogsDb);
   const dispatch = useDispatch();
 
-  // TODO ver error cuando busco perro por url que no existe
-
   useEffect(() => {
     dispatch(getDogs());
   }, [dispatch]);
@@ -55,7 +53,7 @@ function DogDetails() {
           </span>
         </section>
 
-        {Object.keys(dog).length > 0 ? (
+        {typeof dog === "object" && Object.keys(dog).length > 0 ? (
           <article className="dogDetail_article">
             <img
               src={dog.image ? dog.image.url : imgDefault}
