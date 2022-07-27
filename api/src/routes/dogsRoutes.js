@@ -11,7 +11,7 @@ router.get("", async (req, res) => {
       where: {},
       order: ["name"],
     };
-    if (name) options.where = name;
+    if (name) options.where = { name };
 
     const response = await Dog.findAll(options);
     res.json(response);
