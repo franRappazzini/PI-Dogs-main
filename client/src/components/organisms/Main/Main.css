@@ -1,6 +1,24 @@
-.main {
+.main_container {
   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main_container section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: rgba(245, 245, 245, 0.9);
+  backdrop-filter: blur(3px);
+  padding: 2rem;
+  border-radius: 0.6rem;
+}
+
+.main_container .btn_go-home {
+  margin: 1.5rem 0;
+}
+
+.main_container .i {
+  color: black;
 }

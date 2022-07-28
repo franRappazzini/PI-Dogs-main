@@ -62,10 +62,12 @@ function DogDetails() {
 
             <section className="details_container">
               <h2>{dog.name}</h2>
-              <p>
-                <FaRegSmile className="icon_detail" />
-                {dog.temperament || temperaments}
-              </p>
+              {(dog.temperament || temperaments) && (
+                <p>
+                  <FaRegSmile className="icon_detail" />
+                  {dog.temperament || temperaments}
+                </p>
+              )}
               {dog.origin && (
                 <p>
                   <FaMapMarkerAlt className="icon_detail" />

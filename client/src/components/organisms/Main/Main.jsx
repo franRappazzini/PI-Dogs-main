@@ -6,23 +6,24 @@ import React from "react";
 
 function Main() {
   return (
-    <main className="main component_container">
-      <h3>Bienvenido al Proyecto Individual de Dogs</h3>
-
-      <p>
-        Creado por{" "}
-        <a
-          href="https://rappazzini-portfolio.vercel.app/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Francisco Rappazzini
-        </a>
-      </p>
-
-      <Link to={"/home"}>
-        <Button text={"Ingresar a la app"} />
-      </Link>
+    <main className="main_container component_container">
+      <section>
+        <h1>Bienvenido al Proyecto Individual de Dogs</h1>
+        <Link to={"/home"} className="btn_go-home">
+          <Button text={"Ingresar a la app"} />
+        </Link>
+        <p>
+          2022 - Creado por{" "}
+          <a
+            href="https://rappazzini-portfolio.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="i"
+          >
+            Francisco Rappazzini
+          </a>
+        </p>{" "}
+      </section>
     </main>
   );
 }

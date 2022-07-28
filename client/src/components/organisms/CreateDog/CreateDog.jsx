@@ -48,7 +48,7 @@ function CreateDog() {
 
     const res = await createDog(dataDog, tempsSelected);
 
-    // TODO no obtiene error que yo envio
+    // TODO no obtiene error que yo envio 🤔
     if (res.error) {
       return setModal({
         text: res.error,
@@ -71,7 +71,13 @@ function CreateDog() {
   }
 
   function handleAddTemp(e) {
-    if (tempsSelected.length > 6) return; // TODO crear modal para alert
+    if (tempsSelected.length > 6) {
+      return setModal({
+        text: "No puedes seleccionar más de 7 temperamentos",
+        error: true,
+        success: false,
+      });
+    }
     if (e.target.value === "select") return;
     for (const key of tempsSelected) {
       if (key.temperaments === e.target.value) return;
@@ -87,7 +93,6 @@ function CreateDog() {
   }
 
   function regexValidation() {
-    // TODO hacer modal para cada uno de estos errores
     if (!name.match(/^[a-zA-Z\s]*$/)) {
       setModal({
         text: "El nombre solo debe contener letras",

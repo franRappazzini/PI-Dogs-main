@@ -5,17 +5,13 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import React from "react";
 
 function Pagination({ page, setPage, totalPage }) {
-  // TODO ver logica para input
-
   function nextPage() {
     setPage(page + 1);
-    // TODO ver como hacer scroll suave (behavior)
     window.scrollTo(0, 0);
   }
 
   function previousPage() {
     setPage(page - 1);
-    // TODO ver como hacer scroll suave (behavior)
     window.scrollTo(0, 0);
   }
 
