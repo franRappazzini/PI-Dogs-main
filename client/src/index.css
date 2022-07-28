@@ -18,10 +18,14 @@ code {
 }
 
 .component_container {
-  /* background-image: url("https://res.cloudinary.com/rappanui/image/upload/v1658936891/PI%20Henry/background_dtwcvh.jpg");
+  background-image: url("https://res.cloudinary.com/rappanui/image/upload/v1658936891/PI%20Henry/background_dtwcvh.jpg");
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.filter_blur {
   backdrop-filter: blur(3px);
-  min-height: 100vh; */
+  min-height: 100vh;
 }

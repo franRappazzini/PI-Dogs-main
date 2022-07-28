@@ -52,7 +52,7 @@ function Home() {
   }
 
   return (
-    <section className="component_container">
+    <section className="component_container ">
       <Header />
 
       <main className="max-width">

@@ -1,8 +1,0 @@
-.index_body {
-  background-image: url("https://res.cloudinary.com/rappanui/image/upload/v1658936891/PI%20Henry/background_dtwcvh.jpg");
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
-  backdrop-filter: blur(3px);
-  min-height: 100vh;
-}

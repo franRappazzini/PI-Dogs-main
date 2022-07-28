@@ -7,8 +7,8 @@ import dogMeme from "../../../assets/img/dog-meme.png";
 
 function Page404() {
   return (
-    <main className="max-width error_page component_container">
-      <section>
+    <main className=" error_page component_container">
+      <section className="max-width">
         <h1>Error 404</h1>
         <p>Lo sentimos, página no encontrada</p>
         <img src={dogMeme} alt="dog meme" />

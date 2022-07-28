@@ -127,7 +127,7 @@ function CreateDog() {
     <section className="component_container">
       <Header />
 
-      <main className="max-width form_container">
+      <main className="max-width form_container ">
         {(modal.error || modal.success) && (
           <ModalError modal={modal} onClose={onClose} />
         )}

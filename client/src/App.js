@@ -6,6 +6,8 @@ import Home from "./components/organisms/Home/Home";
 import Main from "./components/organisms/Main/Main";
 import Page404 from "./components/organisms/Error/Page404";
 
+// TODO borrar comentarios
+
 function App() {
   return (
     <BrowserRouter>
@@ -14,7 +16,6 @@ function App() {
 
         <Route path="/home" element={<Home />} />
 
-        {/* TODO solucionar problema de background */}
         <Route path="/dog/:breed" element={<DogDetails />} />
 
         <Route path="/createDog" element={<CreateDog />} />
