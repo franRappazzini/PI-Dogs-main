@@ -19,8 +19,6 @@ function Home() {
     temperament: "",
   });
   const dispatch = useDispatch();
-  // TODO ver si sacar refTemp (no se usa actualmente)
-  const refTemp = useRef();
   const refOrder = useRef();
 
   useEffect(() => {
@@ -59,14 +57,12 @@ function Home() {
         <FormFilters
           filter={filter}
           handleChange={handleChange}
-          refTemp={refTemp}
           refOrder={refOrder}
         />
 
         <DogCardContainer
           filter={filter}
           setFilter={setFilter}
-          refTemp={refTemp}
           refOrder={refOrder}
         />
       </main>

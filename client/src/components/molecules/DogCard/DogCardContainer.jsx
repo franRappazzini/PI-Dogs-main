@@ -7,30 +7,12 @@ import Loader from "../../atoms/Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import { useSelector } from "react-redux";
 
-function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
+function DogCardContainer({ filter, setFilter, refOrder }) {
   const [dogsFilter, setDogsFilter] = useState([]);
-  const { allDogs, dogsApi, dogsDb, copyAllDogs, copyDogsApi, copyDogsDb } =
-    useSelector((state) => state.dogs);
+  const { allDogs, dogsApi, dogsDb } = useSelector((state) => state.dogs);
   const [page, setPage] = useState(1);
   const dogsPerPage = 8;
   const totalPage = Math.ceil(dogsFilter.length / dogsPerPage);
-
-  // useEffect(() => {
-  //   if (filter.temperament !== "") {
-  //     if (filter.breed === "all") setDogsFilter(copyAllDogs);
-  //     else if (filter.breed === "api") setDogsFilter(copyDogsApi);
-  //     else if (filter.breed === "created") setDogsFilter(copyDogsDb);
-  //   }
-
-  //   setPage(1);
-  // }, [
-  //   filter.temperament,
-  //   filter.breed,
-  //   copyDogsDb,
-  //   copyDogsApi,
-  //   allDogs,
-  //   copyAllDogs,
-  // ]);
 
   useEffect(() => {
     if (dogsFilter.length) {
@@ -59,10 +41,6 @@ function DogCardContainer({ filter, setFilter, refTemp, refOrder }) {
   }, [filter.order]);
 
   useEffect(() => {
-    // setFilter({ ...filter, temperament: "", order: "nameAsc" });
-    // refTemp.current.value = " ";
-    // refOrder.current.value = "nameAsc";
-
     if (filter.breed === "all") {
       if (filter.name !== "") {
         setFilter({ ...filter, order: "nameAsc" });

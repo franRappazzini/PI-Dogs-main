@@ -5,7 +5,7 @@ import { FaDog, FaRegSmile, FaSortAmountDownAlt } from "react-icons/fa";
 import React from "react";
 import { useSelector } from "react-redux";
 
-function FormFilters({ filter, handleChange, refTemp, refOrder }) {
+function FormFilters({ filter, handleChange, refOrder }) {
   const temperament = useSelector((state) => state.dogs.temperaments);
 
   return (
@@ -21,7 +21,7 @@ function FormFilters({ filter, handleChange, refTemp, refOrder }) {
 
       <div>
         <FaRegSmile className="icon_filter" />
-        <select name="temperament" onChange={handleChange} ref={refTemp}>
+        <select name="temperament" onChange={handleChange}>
           <option value="">Todos</option>
           {temperament.length > 0 &&
             temperament.map((temp) => (

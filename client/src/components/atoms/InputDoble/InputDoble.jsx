@@ -11,8 +11,8 @@ function InputDoble({ value, setState, label }) {
           name="min"
           placeholder="min"
           min={1}
-          value={value.min} // height.min
-          onChange={(e) => setState({ ...value, min: e.target.value })} // (e) => setHeight({ ...height, min: e.target.value })
+          value={value.min}
+          onChange={(e) => setState({ ...value, min: e.target.value })}
           className="input_min-max"
           autoComplete={"off"}
           required
@@ -23,8 +23,8 @@ function InputDoble({ value, setState, label }) {
           name="max"
           placeholder="max"
           min={2}
-          value={value.max} // height.max
-          onChange={(e) => setState({ ...value, max: e.target.value })} // (e) => setHeight({ ...height, max: e.target.value })
+          value={value.max}
+          onChange={(e) => setState({ ...value, max: e.target.value })}
           className="input_min-max"
           autoComplete={"off"}
           required

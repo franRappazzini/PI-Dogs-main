@@ -11,9 +11,10 @@ router.get("", async (req, res) => {
       where: {},
       order: ["name"],
     };
-    if (name) options.where = { name };
+    if (name) options.where = { name: { [Op.iLike]: `%${name}%` } };
 
     const response = await Dog.findAll(options);
+
     res.json(response);
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -37,7 +38,7 @@ router.post("", async (req, res) => {
   try {
     const dog = await Dog.create({ name, height, weight, life_span });
     // si selecciona temperamentos, los agrego a la tabla intermedia
-    if (temperaments.length) {
+    if (temperaments && temperaments.length) {
       const tempsId = await Temperament.findAll({
         attributes: ["id"],
         where: {

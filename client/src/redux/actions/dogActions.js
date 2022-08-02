@@ -10,7 +10,6 @@ const URL_DOGS = "http://localhost:3001/dogs";
 const URL_TEMP = "http://localhost:3001/temperaments";
 
 export function getDogs() {
-  // TODO ver hacer filter de api o created en back
   return async (dispatch) => {
     try {
       const res = await fetch(URL_API);
