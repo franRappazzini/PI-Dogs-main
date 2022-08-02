@@ -6,20 +6,21 @@ export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS";
 export const FILTER_TEMP = "FILTER_TEMP";
 
 const URL_API = "https://api.thedogapi.com/v1/breeds";
-const URL_DOGS = "http://localhost:3001/dogs";
-const URL_TEMP = "http://localhost:3001/temperaments";
 
 export function getDogs() {
   return async (dispatch) => {
     try {
-      const res = await fetch(URL_API);
-      const data = await res.json();
-      const resDb = await fetch(URL_DOGS);
-      const dataDb = await resDb.json();
+      const res = await axios(URL_API);
+      const resDb = await axios("/dogs");
 
-      const allDogs = [...data, ...dataDb];
+      const allDogs = [...res.data, ...resDb.data];
 
-      dispatch({ type: GET_DOGS, payload: data, payloadDb: dataDb, allDogs });
+      dispatch({
+        type: GET_DOGS,
+        payload: res.data,
+        payloadDb: resDb.data,
+        allDogs,
+      });
     } catch (err) {
       console.log(err.message);
     }
@@ -43,7 +44,7 @@ export async function createDog(dog, temps) {
 
   try {
     const newDog = { name, height, weight, life_span };
-    await axios.post("http://localhost:3001/dogs", { ...newDog, temperaments });
+    await axios.post("/dogs", { ...newDog, temperaments });
     return { success: "Creado con exito" };
   } catch (err) {
     return { error: err.message };
@@ -53,10 +54,9 @@ export async function createDog(dog, temps) {
 export function getTemperaments() {
   return async (dispatch) => {
     try {
-      const res = await fetch(URL_TEMP);
-      const data = await res.json();
+      const res = await axios("/temperaments");
 
-      dispatch({ type: GET_TEMPERAMENTS, payload: data });
+      dispatch({ type: GET_TEMPERAMENTS, payload: res.data });
     } catch (err) {
       console.log(err.message);
     }
